@@ -2,4 +2,7 @@
     <string name="app_name">MessengerApp</string>
     <string name="profile_image">profile image</string>
     <string name="search">Search</string>
+    <string name="fab">fab</string>
+    <string name="update">Update</string>
+    <string name="log_out">Log Out</string>
 </resources>

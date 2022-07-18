@@ -1,8 +1,10 @@
 package ge.nrogava.messengerapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,7 +23,15 @@ class HomePage : AppCompatActivity() {
 
         val binding: ActivityHomepageBinding = DataBindingUtil.setContentView(this, R.layout.activity_homepage)
         viewInitializations()
+        recyclerViewInit(binding)
 
+
+
+
+    }
+
+
+    private fun recyclerViewInit(binding:ActivityHomepageBinding) {
         val viewModel: ChatsViewModel = ViewModelProvider(this)[ChatsViewModel::class.java]
         binding.lifecycleOwner=this
         binding.viewModel=viewModel
@@ -32,24 +42,30 @@ class HomePage : AppCompatActivity() {
         viewModel.getAllChats()
         viewModel.chatsLiveData.observe(this) {
 
-            chatItems -> chatsAdapter.setItems(chatItems)
+                chatItems -> chatsAdapter.setItems(chatItems)
             Log.d("RV","In Activity")
         }
-
-
-    }
-
-
-    private fun recyclerViewInit() {
 
     }
 
     private fun viewInitializations() {
         bottomNavInit()
+
     }
 
     private fun bottomNavInit() {
         bottomNav=findViewById(R.id.bottomAppNav)
         bottomNav.background=null
+        bottomNav.setOnItemReselectedListener {
+
+            if(it.itemId != R.id.home) {
+
+                startActivity(Intent(this,ProfilePage::class.java))
+                finish()
+            }
+        }
+
+        bottomNav.selectedItemId=R.id.settings
+
     }
 }
