@@ -1,114 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".HomePage">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/appbar_height"
-        android:fitsSystemWindows="true">
+    <data>
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            android:background="@drawable/ic_background"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:contentScrim="@color/theme_blue" >
+        <variable
+            name="viewModel"
+            type="ge.nrogava.messengerapp.views.ChatsViewModel" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_background"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"/>
+    </data>
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_height"
-                app:layout_collapseMode="pin"
-                android:layout_gravity="bottom"
-               >
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/search_height"
-                    android:hint="Search"
-                    android:paddingStart="@dimen/padding_search_start"
-                    android:drawableStart="@drawable/ic_baseline_search_24"
-                    android:layout_marginStart="@dimen/search_margin"
-                    android:layout_marginEnd="@dimen/search_margin"
-                    android:alpha="0.75"
-                    android:background="@drawable/rounded_edit_text"
-
-                    />
-
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:background="@android:color/darker_gray" >
+        tools:context=".HomePage">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/appbar_height"
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:background="@drawable/ic_background"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+                app:contentScrim="@color/theme_blue" >
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_background"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax"/>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/toolbar_height"
+                    app:layout_collapseMode="pin"
+                    android:layout_gravity="bottom"
+                    >
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/search_height"
+                        android:hint="@string/search"
+                        android:paddingStart="@dimen/padding_search_start"
+                        android:drawableStart="@drawable/ic_baseline_search_24"
+                        android:layout_marginStart="@dimen/search_margin"
+                        android:layout_marginEnd="@dimen/search_margin"
+                        android:alpha="0.75"
+                        android:background="@drawable/rounded_edit_text"
+
+                        />
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+             >
+
+            <androidx.recyclerview.widget.RecyclerView
+
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:id="@+id/conversations_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                tools:listitem="@layout/conversation_list_view"
+
+                >
+
+            </androidx.recyclerview.widget.RecyclerView>
 
 
+        </androidx.core.widget.NestedScrollView>
 
-    </androidx.core.widget.NestedScrollView>
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:hideOnScroll="true"
+            android:backgroundTint="@android:color/white"
+            android:backgroundTintMode="src_over"
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:hideOnScroll="true"
-        android:backgroundTint="@android:color/white"
-        android:backgroundTintMode="src_over"
-
-        app:fabCradleRoundedCornerRadius="@dimen/fab_cradle"
-        app:fabAlignmentMode="center"
-        app:fabCradleVerticalOffset="@dimen/fab_cradle"
-        app:fabCradleMargin="@dimen/fab_cradle"
+            app:fabCradleRoundedCornerRadius="@dimen/fab_cradle"
+            app:fabAlignmentMode="center"
+            app:fabCradleVerticalOffset="@dimen/fab_cradle"
+            app:fabCradleMargin="@dimen/fab_cradle"
 
 
-        >
+            >
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomAppNav"
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomAppNav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:menu="@menu/bottom_menu_nav"
+                android:layout_gravity="center"
+                app:labelVisibilityMode="unlabeled"
+                android:layout_marginEnd="@dimen/nav_bar_margin"
+                android:background="@android:color/transparent"
+
+                app:itemIconTint="@color/menu_item_color"
+                app:itemTextColor="@color/menu_item_color"
+
+
+                />
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:menu="@menu/bottom_menu_nav"
-            android:layout_gravity="center"
-            app:labelVisibilityMode="unlabeled"
-            android:layout_marginEnd="@dimen/nav_bar_margin"
-            android:background="@android:color/transparent"
+            android:src="@drawable/ic_baseline_add_24"
+            android:backgroundTint="@color/theme_blue"
+            app:layout_anchor="@id/bottomAppBar"
+            app:fabSize="normal"
+            android:contentDescription="fab">
 
-            app:itemIconTint="@color/menu_item_color"
-            app:itemTextColor="@color/menu_item_color"
-
-
-            />
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_add_24"
-        android:backgroundTint="@color/theme_blue"
-        app:layout_anchor="@id/bottomAppBar"
-        app:fabSize="normal"
-        android:contentDescription="fab">
-
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

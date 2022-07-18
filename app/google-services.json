@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "996934893409",
+    "firebase_url": "https://messengerapp-f4be4-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "messengerapp-f4be4",
+    "storage_bucket": "messengerapp-f4be4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996934893409:android:6beac3706c5606ddff4f20",
+        "android_client_info": {
+          "package_name": "ge.nrogava.messengerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996934893409-37j37l2jso6qgl31o0lqhm7tl5n9785g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvThR4Lt-3XR1g9seCq86y0g2_rlYG9hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996934893409-37j37l2jso6qgl31o0lqhm7tl5n9785g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
