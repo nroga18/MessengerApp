@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import ge.nrogava.messengerapp.R
 
@@ -13,6 +14,7 @@ import ge.nrogava.messengerapp.databinding.ConversationListViewBinding
 class ChatsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
     private val chatItems = mutableListOf<Chat>()
+
 
 
 
@@ -26,7 +28,10 @@ class ChatsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
         private val binding= ConversationListViewBinding.bind(itemView)
 
+
+
         fun onBind(chat: Chat) {
+
             binding.nickname.text=chat.user
             binding.lastMessage.text=chat.recentMessage
             binding.time.text=chat.time
@@ -39,6 +44,7 @@ class ChatsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ChatsViewHolder).onBind(chatItems[position])
+
     }
 
     override fun getItemCount(): Int {
@@ -49,7 +55,9 @@ class ChatsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
     fun setItems(chatItems: List<Chat>) {
         this.chatItems.clear()
         this.chatItems.addAll(chatItems)
+
         notifyDataSetChanged()
     }
+
 }
 

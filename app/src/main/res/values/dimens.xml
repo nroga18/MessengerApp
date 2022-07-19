@@ -42,6 +42,9 @@
     <dimen name="occupation_bottom_margin">15dp</dimen>
     <dimen name="occupation_text_size">14sp</dimen>
 
+    <dimen name="progress_bar_dimen">100dp</dimen>
+    <dimen name="progress_bar_top_margin">350dp</dimen>
+
 
 
 

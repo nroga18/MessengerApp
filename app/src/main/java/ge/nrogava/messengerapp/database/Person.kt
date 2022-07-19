@@ -1,7 +1,6 @@
 package ge.nrogava.messengerapp.database
 
 
-class Person {
+data class Person(val nickname: String = "", var occupation: String = "") {
 
-    //To be implemented.
 }

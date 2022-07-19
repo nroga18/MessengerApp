@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
+import android.widget.ProgressBar
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +17,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import ge.nrogava.messengerapp.adapters.ChatsAdapter
 import ge.nrogava.messengerapp.databinding.ActivityHomepageBinding
+import ge.nrogava.messengerapp.util.toast
 import ge.nrogava.messengerapp.views.ChatsViewModel
 
 class HomePage : AppCompatActivity() {
@@ -24,21 +27,30 @@ class HomePage : AppCompatActivity() {
     lateinit var search:EditText
     lateinit var viewModel:ChatsViewModel
     lateinit var chatsAdapter:ChatsAdapter
+    lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val binding: ActivityHomepageBinding = DataBindingUtil.setContentView(this, R.layout.activity_homepage)
+
+
+        toast("Loading... Please Wait.")
+
+        //cant seem to get progressbar working.
+
         recyclerViewInit(binding)
         viewInitializations()
+        toast("Loading Successful")
 
 
     }
 
-    //onResume should be implemented
+    //onResume should be implemented - chat may have been added and progressBar should update.
 
 
     private fun recyclerViewInit(binding:ActivityHomepageBinding) {
+
+
         viewModel = ViewModelProvider(this)[ChatsViewModel::class.java]
         binding.lifecycleOwner=this
         binding.viewModel=viewModel
@@ -46,18 +58,33 @@ class HomePage : AppCompatActivity() {
         chatsAdapter=ChatsAdapter()
         binding.conversationsRecyclerView.adapter=chatsAdapter
         viewModel.getAllChats()
+
         viewModel.chatsLiveData.observe(this) {
                 chatItems -> chatsAdapter.setItems(chatItems)
             Log.d("RV","In Activity")
         }
+
+
     }
 
     private fun viewInitializations() {
         searchBarInit()
         bottomNavInit()
         searchFabInit()
+       // progressBarInit()
 
     }
+
+/*    private fun progressBarInit() {
+
+        progressBar=findViewById(R.id.progress_bar)
+        toast("Loading... Please Wait.")
+        progressBar.visibility= View.GONE
+
+    }
+
+
+ */
 
     private fun searchBarInit() {
         search=findViewById(R.id.search_edit_text)
@@ -79,6 +106,9 @@ class HomePage : AppCompatActivity() {
             finish()
         }
     }
+
+
+
 
     private fun bottomNavInit() {
         bottomNav=findViewById(R.id.bottomAppNav)

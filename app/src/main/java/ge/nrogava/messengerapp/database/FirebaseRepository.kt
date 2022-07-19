@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 class FirebaseRepository {
    val db=Firebase.database
    val dbRef=db.getReference("chats")
+   val peopleRef=db.getReference("people")
 
    fun getAllChats(liveData : MutableLiveData<List<Chat>>) {
       dbRef.addValueEventListener(object : ValueEventListener {
@@ -58,6 +59,55 @@ class FirebaseRepository {
       })
 
    }
+
+
+   fun getPeople(liveData : MutableLiveData<List<Person>>, prefix: String) {
+
+      peopleRef.orderByChild("nickname").startAt(prefix).endAt(prefix+"\uf8ff").addValueEventListener(object : ValueEventListener {
+         override fun onDataChange(snapshot: DataSnapshot) {
+            Log.i("Firebase",snapshot.value.toString())
+            val persons : List<Person> = snapshot.children.map {
+                  dataSnapshot ->  dataSnapshot.getValue(Person::class.java)!!
+            }
+
+            Log.d("RVSearch", persons.size.toString())
+            liveData.postValue(persons)
+         }
+
+         override fun onCancelled(error: DatabaseError) {
+            //
+         }
+      })
+
+   }
+
+   fun getAllPeople(liveData : MutableLiveData<List<Person>>) {
+      peopleRef.addValueEventListener(object : ValueEventListener {
+         override fun onDataChange(snapshot: DataSnapshot) {
+            Log.i("Firebase",snapshot.value.toString())
+            val persons : List<Person> = snapshot.children.map {
+
+                  dataSnapshot ->  dataSnapshot.getValue(Person::class.java)!!
+
+            }
+
+            liveData.postValue(persons)
+
+         }
+
+         override fun onCancelled(error: DatabaseError) {
+            //
+         }
+      })
+
+
+   }
+
+
+
+
+
+
 
 
 

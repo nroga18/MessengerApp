@@ -9,6 +9,8 @@
             name="viewModel"
             type="ge.nrogava.messengerapp.views.ChatsViewModel" />
 
+
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -71,18 +73,35 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
              >
 
-            <androidx.recyclerview.widget.RecyclerView
-
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:id="@+id/conversations_recycler_view"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                tools:listitem="@layout/conversation_list_view"
+                android:layout_height="match_parent">
 
-                >
 
-            </androidx.recyclerview.widget.RecyclerView>
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="@dimen/progress_bar_dimen"
+                    android:layout_height="@dimen/progress_bar_dimen"
+                    android:visibility="visible"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/progress_bar_top_margin"
+                    />
+
+                <androidx.recyclerview.widget.RecyclerView
+
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:id="@+id/conversations_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/conversation_list_view"
+                    >
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </RelativeLayout>
 
 
         </androidx.core.widget.NestedScrollView>
@@ -133,6 +152,11 @@
             android:contentDescription="@string/fabHome">
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+
+
+
+
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
