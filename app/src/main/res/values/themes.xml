@@ -14,4 +14,12 @@
         <item name="android:actionMenuTextColor">@color/theme_blue</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="login_edit_text" parent = "Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:padding">@dimen/login_text_padding</item>
+        <item name="android:layout_marginEnd">@dimen/txt_top_margin</item>
+        <item name="android:layout_marginStart">@dimen/txt_top_margin</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">@dimen/text_size_profile</item>
+        <item name="android:textColorHint">@color/grey_hint</item>
+    </style>
 </resources>

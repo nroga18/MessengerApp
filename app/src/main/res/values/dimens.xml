@@ -45,6 +45,12 @@
     <dimen name="progress_bar_dimen">100dp</dimen>
     <dimen name="progress_bar_top_margin">350dp</dimen>
 
+    <dimen name="button_margin">16dp</dimen>
+    <dimen name="not_registered_margin">8dp</dimen>
+    <dimen name="btn_top_margin">24dp</dimen>
+    <dimen name="txt_top_margin">32dp</dimen>
+    <dimen name="login_text_padding">11dp</dimen>
+
 
 
 
