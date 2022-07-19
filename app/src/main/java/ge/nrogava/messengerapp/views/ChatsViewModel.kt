@@ -22,5 +22,4 @@ class ChatsViewModel : ViewModel() {
         rep.searchChats(_chatsLiveData,person)
     }
 
-
 }

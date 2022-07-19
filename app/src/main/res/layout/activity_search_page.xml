@@ -29,7 +29,7 @@
         android:layout_height="@dimen/search_toolbar_height"
         android:background="@color/theme_blue"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/searchRecyclerView"
+        app:layout_constraintBottom_toTopOf="@id/search_relative_layout"
         app:layout_constraintStart_toStartOf="parent"
         >
 
@@ -75,6 +75,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/search_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/materialToolbar"
