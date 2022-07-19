@@ -46,6 +46,7 @@
                     >
 
                     <EditText
+                        android:id="@+id/search_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/search_height"
                         android:hint="@string/search"
@@ -56,7 +57,7 @@
                         android:alpha="0.75"
                         android:background="@drawable/rounded_edit_text"
 
-                        />
+                         />
 
                 </androidx.appcompat.widget.Toolbar>
 
@@ -122,13 +123,14 @@
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/search_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_add_24"
             android:backgroundTint="@color/theme_blue"
             app:layout_anchor="@id/bottomAppBar"
             app:fabSize="normal"
-            android:contentDescription="fab">
+            android:contentDescription="@string/fabHome">
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 

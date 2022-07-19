@@ -5,4 +5,6 @@
     <string name="fab">fab</string>
     <string name="update">Update</string>
     <string name="log_out">Log Out</string>
+    <string name="fabHome">fab</string>
+    <string name="back_button_search">backButtonSearch</string>
 </resources>

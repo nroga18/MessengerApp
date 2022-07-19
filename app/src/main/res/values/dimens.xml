@@ -2,7 +2,7 @@
 <resources>
     <dimen name="nav_bar_margin">20dp</dimen>
     <dimen name="appbar_height">180dp</dimen>
-    <dimen name="search_height">45dp</dimen>
+    <dimen name="search_height">48dp</dimen>
     <dimen name="search_margin">20dp</dimen>
     <dimen name="search_margin_bottom">15dp</dimen>
     <dimen name="padding_search">20dp</dimen>
@@ -31,6 +31,16 @@
     <dimen name="button_height">45dp</dimen>
     <dimen name="button_corner_padding">10dp</dimen>
     <dimen name="log_out_button_border">3dp</dimen>
+
+
+    <dimen name="back_button_dimen_height">80dp</dimen>
+    <dimen name="back_button_dimen_width">50dp</dimen>
+    <dimen name="search_width">300dp</dimen>
+    <dimen name="search_end_margin">20dp</dimen>
+    <dimen name="back_button_end_margin">-10dp</dimen>
+    <dimen name="search_toolbar_height">100dp</dimen>
+    <dimen name="occupation_bottom_margin">15dp</dimen>
+    <dimen name="occupation_text_size">14sp</dimen>
 
 
 

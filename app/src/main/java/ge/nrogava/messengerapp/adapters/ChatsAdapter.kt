@@ -49,17 +49,6 @@ class ChatsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
     fun setItems(chatItems: List<Chat>) {
         this.chatItems.clear()
         this.chatItems.addAll(chatItems)
-        this.chatItems.addAll(chatItems)
-        this.chatItems.addAll(chatItems)
-        this.chatItems.addAll(chatItems)
-        this.chatItems.addAll(chatItems)
-        this.chatItems.addAll(chatItems)
-        this.chatItems.addAll(chatItems)
-        this.chatItems.addAll(chatItems)
-        this.chatItems.addAll(chatItems)
-        this.chatItems.addAll(chatItems)
-
-        //Dummy Implementation to check scrolling behaviour is right.
         notifyDataSetChanged()
     }
 }

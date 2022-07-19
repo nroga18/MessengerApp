@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.EditText
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import ge.nrogava.messengerapp.adapters.ChatsAdapter
@@ -17,40 +20,64 @@ import ge.nrogava.messengerapp.views.ChatsViewModel
 class HomePage : AppCompatActivity() {
 
     lateinit var bottomNav : BottomNavigationView
+    lateinit var fab:FloatingActionButton
+    lateinit var search:EditText
+    lateinit var viewModel:ChatsViewModel
+    lateinit var chatsAdapter:ChatsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val binding: ActivityHomepageBinding = DataBindingUtil.setContentView(this, R.layout.activity_homepage)
-        viewInitializations()
         recyclerViewInit(binding)
-
-
+        viewInitializations()
 
 
     }
 
+    //onResume should be implemented
+
 
     private fun recyclerViewInit(binding:ActivityHomepageBinding) {
-        val viewModel: ChatsViewModel = ViewModelProvider(this)[ChatsViewModel::class.java]
+        viewModel = ViewModelProvider(this)[ChatsViewModel::class.java]
         binding.lifecycleOwner=this
         binding.viewModel=viewModel
 
-
-        val chatsAdapter=ChatsAdapter()
+        chatsAdapter=ChatsAdapter()
         binding.conversationsRecyclerView.adapter=chatsAdapter
         viewModel.getAllChats()
         viewModel.chatsLiveData.observe(this) {
-
                 chatItems -> chatsAdapter.setItems(chatItems)
             Log.d("RV","In Activity")
+        }
+    }
+
+    private fun viewInitializations() {
+        searchBarInit()
+        bottomNavInit()
+        searchFabInit()
+
+    }
+
+    private fun searchBarInit() {
+        search=findViewById(R.id.search_edit_text)
+        search.addTextChangedListener {
+            val searchText=search.text.toString()
+            viewModel.searchChats(searchText)
+            viewModel.chatsLiveData.observe(this) {
+                    chatItems -> chatsAdapter.setItems(chatItems)
+            }
+
         }
 
     }
 
-    private fun viewInitializations() {
-        bottomNavInit()
-
+    private fun searchFabInit() {
+        fab=findViewById(R.id.search_fab)
+        fab.setOnClickListener {
+            startActivity(Intent(this,SearchPage::class.java))
+            finish()
+        }
     }
 
     private fun bottomNavInit() {

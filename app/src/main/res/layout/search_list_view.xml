@@ -2,16 +2,13 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/card_height"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    >
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/card_height">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <ImageView
             android:id="@+id/profile_image"
@@ -28,42 +25,29 @@
         <TextView
             android:id="@+id/nickname"
             android:layout_marginStart="@dimen/nickname_margin_start"
-            android:layout_marginTop="@dimen/card_text_margin_medium"
+            android:layout_marginTop="@dimen/nickname_margin_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toRightOf="@id/profile_image"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="123412341234123412341"
-            android:textStyle="bold"
+            tools:text="Tour de Bhutan"
+
             android:textSize="@dimen/card_text_size_large"
             android:textColor="@color/black"/>
 
         <TextView
-            android:id="@+id/last_message"
+            android:id="@+id/occupation"
             android:layout_marginStart="@dimen/nickname_margin_start"
-            android:layout_marginBottom="@dimen/card_text_margin"
+            android:layout_marginBottom="@dimen/occupation_bottom_margin"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/nickname_margin_start"
             app:layout_constraintLeft_toRightOf="@id/profile_image"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="How are you mate?"
+            tools:text="Manager"
 
-            android:textSize="@dimen/card_text_size_small"
+            android:textSize="@dimen/occupation_text_size"
             android:textColor="@android:color/darker_gray"/>
 
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_marginEnd="@dimen/search_margin"
-            android:layout_marginTop="@dimen/card_text_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="10:00pm"
-
-            android:textSize="@dimen/card_text_size_small"
-            android:textColor="@android:color/darker_gray"/>
 
 
 

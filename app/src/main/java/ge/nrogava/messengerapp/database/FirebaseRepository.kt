@@ -20,12 +20,15 @@ class FirebaseRepository {
          override fun onDataChange(snapshot: DataSnapshot) {
             Log.i("Firebase",snapshot.value.toString())
             val chats : List<Chat> = snapshot.children.map {
+
                   dataSnapshot ->  dataSnapshot.getValue(Chat::class.java)!!
+
             }
             Log.i("CHATS",chats.toString())
             Log.d("RV","In Repository")
             Log.d("RV", chats.size.toString())
             liveData.postValue(chats)
+
          }
 
          override fun onCancelled(error: DatabaseError) {
@@ -33,6 +36,26 @@ class FirebaseRepository {
          }
       })
 
+
+   }
+
+   fun searchChats(liveData : MutableLiveData<List<Chat>>, person: String) {
+
+      dbRef.orderByChild("user").startAt(person).endAt(person+"\uf8ff").addValueEventListener(object : ValueEventListener {
+         override fun onDataChange(snapshot: DataSnapshot) {
+            Log.i("Firebase",snapshot.value.toString())
+            val chats : List<Chat> = snapshot.children.map {
+                  dataSnapshot ->  dataSnapshot.getValue(Chat::class.java)!!
+            }
+
+            Log.d("RVSearch", chats.size.toString())
+            liveData.postValue(chats)
+         }
+
+         override fun onCancelled(error: DatabaseError) {
+            //
+         }
+      })
 
    }
 

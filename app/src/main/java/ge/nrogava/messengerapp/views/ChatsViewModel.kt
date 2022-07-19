@@ -18,5 +18,9 @@ class ChatsViewModel : ViewModel() {
         Log.d("RV","In View Model")
     }
 
+    fun searchChats(person: String) {
+        rep.searchChats(_chatsLiveData,person)
+    }
+
 
 }
