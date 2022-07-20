@@ -1,10 +1,15 @@
 package ge.nrogava.messengerapp.database
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -13,8 +18,44 @@ import com.google.firebase.ktx.Firebase
 
 class FirebaseRepository {
    val db=Firebase.database
+   val firebaseAuth : FirebaseAuth =Firebase.auth
    val dbRef=db.getReference("chats")
    val peopleRef=db.getReference("people")
+   var fireBaseUser : FirebaseUser?
+   var person : Person?
+   private val mail = "@freeuni.edu.ge"
+
+
+   init {
+      person = null
+      fireBaseUser = Firebase.auth.currentUser
+      if (fireBaseUser != null) {
+         //initializeUser()
+      }
+   }
+   fun login(username: String, password: String, context: Context, completion: (success: Boolean) -> Unit) {
+      firebaseAuth.signInWithEmailAndPassword("$username$mail", password)
+         .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+               fireBaseUser = Firebase.auth.currentUser
+               //initializeUser()
+               completion(true)
+            }
+         }
+         .addOnFailureListener {
+            Toast.makeText(
+               context,
+               "Failed to log in: ${it.localizedMessage}",
+               Toast.LENGTH_LONG
+            ).show()
+            completion(false)
+         }
+   }
+
+   fun getNameFromMail(mailAddress: String): String {
+      return mailAddress.substring(0, mailAddress.indexOf('@'))
+   }
+
 
    fun getAllChats(liveData : MutableLiveData<List<Chat>>) {
       dbRef.addValueEventListener(object : ValueEventListener {

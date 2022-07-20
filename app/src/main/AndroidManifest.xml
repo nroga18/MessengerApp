@@ -13,7 +13,7 @@
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".HomePage"
             android:exported="false" />
         <activity
             android:name=".SearchPage"
@@ -22,7 +22,7 @@
             android:name=".ProfilePage"
             android:exported="false" />
         <activity
-            android:name=".HomePage"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
