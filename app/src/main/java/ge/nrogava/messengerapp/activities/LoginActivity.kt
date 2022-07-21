@@ -44,6 +44,9 @@ class LoginActivity : AppCompatActivity() {
 
         rep.login(email, password,this, this::riderctToHomePage)
     }
+    fun signUp(view: View){
+        startActivity(Intent(this, SignUpActivity::class.java))
+    }
 
 
 
