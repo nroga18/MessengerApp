@@ -7,10 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
@@ -30,7 +27,7 @@ class FirebaseRepository {
       person = null
       fireBaseUser = Firebase.auth.currentUser
       if (fireBaseUser != null) {
-         //initializeUser()
+
       }
    }
    fun fireBaseSignUp(
@@ -63,7 +60,8 @@ class FirebaseRepository {
                .addOnCompleteListener { task ->
                   if (task.isSuccessful) {
                      fireBaseUser = Firebase.auth.currentUser
-                     //access("people", nickname).setValue(occupation)
+
+                     saveUserToDatabase(nickname, occupation)
                      person = Person(nickname, occupation)
                      completion(true)
                   } else {
@@ -79,12 +77,12 @@ class FirebaseRepository {
          }
       }
    }
-   fun login(username: String, password: String, context: Context, completion: (success: Boolean) -> Unit) {
-      firebaseAuth.signInWithEmailAndPassword("$username$mail", password)
+   fun login(nickname: String, password: String, context: Context, completion: (success: Boolean) -> Unit) {
+      firebaseAuth.signInWithEmailAndPassword("$nickname$mail", password)
          .addOnCompleteListener { task ->
             if (task.isSuccessful) {
                fireBaseUser = Firebase.auth.currentUser
-               //initializeUser()
+               findUserByUID(fireBaseUser!!.uid)
                completion(true)
             }
          }
@@ -96,6 +94,27 @@ class FirebaseRepository {
             ).show()
             completion(false)
          }
+   }
+   fun saveUserToDatabase(nickname: String, occupation: String) {
+      val userId = FirebaseAuth.getInstance().uid?:""
+      val ref = FirebaseDatabase.getInstance().getReference("/users/$userId")
+
+      val user = Person(nickname,occupation)
+      ref.setValue(user).addOnSuccessListener {  }
+   }
+   fun findUserByUID(uid: String){
+      val db = Firebase.database.reference
+      val uidRef = db.child("users").child(uid)
+      val valueEventListener = object : ValueEventListener {
+         override fun onDataChange(dataSnapshot: DataSnapshot) {
+            person = dataSnapshot.getValue(Person::class.java)
+         }
+
+         override fun onCancelled(databaseError: DatabaseError) {
+            Log.d("d", databaseError.message) //Don't ignore errors!
+         }
+      }
+      uidRef.addListenerForSingleValueEvent(valueEventListener)
    }
 
    fun getNameFromMail(mailAddress: String): String {
