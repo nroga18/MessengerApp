@@ -33,6 +33,52 @@ class FirebaseRepository {
          //initializeUser()
       }
    }
+   fun fireBaseSignUp(
+      nickname: String, password: String, occupation: String, context: Context, completion: (success: Boolean) -> Unit
+   ): Boolean {
+      return when {
+         nickname.isBlank() -> {
+            Toast.makeText(context, "Please enter your nickname", Toast.LENGTH_SHORT)
+               .show()
+            completion(false)
+            false
+         }
+         occupation.isBlank() -> {
+            Toast.makeText(context, "Please enter your occupation", Toast.LENGTH_SHORT)
+               .show()
+            completion(false)
+            false
+         }
+         password.isBlank() || password.length < 6 -> {
+            Toast.makeText(
+               context,
+               "Please enter your Password that is at least 6 characters long",
+               Toast.LENGTH_LONG
+            ).show()
+            completion(false)
+            false
+         }
+         else -> {
+            firebaseAuth.createUserWithEmailAndPassword("$nickname$mail", password)
+               .addOnCompleteListener { task ->
+                  if (task.isSuccessful) {
+                     fireBaseUser = Firebase.auth.currentUser
+                     //access("people", nickname).setValue(occupation)
+                     person = Person(nickname, occupation)
+                     completion(true)
+                  } else {
+                     Toast.makeText(
+                        context,
+                        "Error: Failed to register user\n ${task.exception?.localizedMessage}",
+                        Toast.LENGTH_LONG
+                     ).show()
+                     completion(false)
+                  }
+               }
+            return true
+         }
+      }
+   }
    fun login(username: String, password: String, context: Context, completion: (success: Boolean) -> Unit) {
       firebaseAuth.signInWithEmailAndPassword("$username$mail", password)
          .addOnCompleteListener { task ->

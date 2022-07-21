@@ -39,7 +39,10 @@ class LoginActivity : AppCompatActivity() {
         progressBar = findViewById<ProgressBar>(R.id.login_progress_bar)
         progressBar.visibility = View.VISIBLE
 
-        rep.login(emailTxt.text.toString(), passwordTxt.text.toString(),this, this::riderctToHomePage)
+        var email = emailTxt.text.toString()
+        var password = passwordTxt.text.toString()
+
+        rep.login(email, password,this, this::riderctToHomePage)
     }
 
     fun signUp(view: View){

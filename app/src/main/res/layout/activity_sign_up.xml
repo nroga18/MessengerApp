@@ -19,7 +19,7 @@
     <EditText
         style="@style/login_edit_text"
         android:background="@drawable/rounded_edit_text_profile"
-        android:id="@+id/edit_text_email"
+        android:id="@+id/txt_email"
         android:hint="@string/enter_your_nickname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,21 +33,21 @@
         android:hint="@string/enter_your_password"
         android:inputType="textPassword"
         android:background="@drawable/rounded_edit_text_profile"
-        android:id="@+id/edit_text_password"
+        android:id="@+id/txt_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/button_margin"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_email"
+        app:layout_constraintTop_toBottomOf="@+id/txt_email"
         tools:layout_editor_absoluteX="16dp" />
     <EditText
-        android:id="@+id/sign_up_occupation"
+        android:id="@+id/txt_occupation"
         style="@style/login_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/button_margin"
         android:background="@drawable/rounded_edit_text_profile"
         android:hint="@string/what_i_do"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_password"
+        app:layout_constraintTop_toBottomOf="@+id/txt_password"
         tools:layout_editor_absoluteX="16dp" />
     <ProgressBar
         android:id="@+id/sign_up_progress_bar"
@@ -58,7 +58,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_sign_up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up_occupation" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_occupation" />
     <Button
         android:id="@+id/btn_sign_up"
         style="Widget.MaterialComponents.Button"
@@ -67,10 +67,11 @@
         android:backgroundTint="@color/theme_blue"
         android:text="@string/sign_up"
         android:textSize="@dimen/card_text_size_large"
+        android:onClick="actvitySignUp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_up_occupation" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_occupation" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
