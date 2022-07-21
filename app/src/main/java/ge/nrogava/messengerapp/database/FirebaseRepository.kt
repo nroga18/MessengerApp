@@ -10,6 +10,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+//import ge.nrogava.messengerapp.util.toast
 
 
 
@@ -30,10 +31,19 @@ class FirebaseRepository {
 
       }
    }
+   fun signOut() {
+
+      fireBaseUser = null
+      person = null
+      firebaseAuth.signOut()
+   }
    fun fireBaseSignUp(
+
       nickname: String, password: String, occupation: String, context: Context, completion: (success: Boolean) -> Unit
    ): Boolean {
+
       return when {
+
          nickname.isBlank() -> {
             Toast.makeText(context, "Please enter your nickname", Toast.LENGTH_SHORT)
                .show()
@@ -47,6 +57,7 @@ class FirebaseRepository {
             false
          }
          password.isBlank() || password.length < 6 -> {
+
             Toast.makeText(
                context,
                "Please enter your Password that is at least 6 characters long",
@@ -78,6 +89,7 @@ class FirebaseRepository {
       }
    }
    fun login(nickname: String, password: String, context: Context, completion: (success: Boolean) -> Unit) {
+
       firebaseAuth.signInWithEmailAndPassword("$nickname$mail", password)
          .addOnCompleteListener { task ->
             if (task.isSuccessful) {

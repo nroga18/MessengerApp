@@ -1,13 +1,16 @@
-package ge.nrogava.messengerapp
+package ge.nrogava.messengerapp.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import ge.nrogava.messengerapp.R
+import ge.nrogava.messengerapp.database.FirebaseRepository
 
 class ProfilePage : AppCompatActivity() {
-
+    private val rep= FirebaseRepository()
     lateinit var bottomNav : BottomNavigationView
     lateinit var fab: FloatingActionButton
 
@@ -18,7 +21,11 @@ class ProfilePage : AppCompatActivity() {
 
     }
 
-
+    fun signOut(view: View){
+        rep.signOut()
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
+    }
     private fun viewInitializations() {
         bottomNavInit()
         searchFabInit()
@@ -30,7 +37,7 @@ class ProfilePage : AppCompatActivity() {
         bottomNav.background=null
         bottomNav.setOnItemReselectedListener {
             if(it.itemId != R.id.settings) {
-                startActivity(Intent(this,HomePage::class.java))
+                startActivity(Intent(this, HomePage::class.java))
                 finish()
             }
         }
@@ -39,7 +46,7 @@ class ProfilePage : AppCompatActivity() {
     private fun searchFabInit() {
         fab=findViewById(R.id.search_fab_profile)
         fab.setOnClickListener {
-            startActivity(Intent(this,SearchPage::class.java))
+            startActivity(Intent(this, SearchPage::class.java))
             finish()
         }
     }

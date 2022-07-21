@@ -1,4 +1,4 @@
-package ge.nrogava.messengerapp
+package ge.nrogava.messengerapp.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
+import ge.nrogava.messengerapp.R
 import ge.nrogava.messengerapp.database.FirebaseRepository
 
 class SignUpActivity : AppCompatActivity() {

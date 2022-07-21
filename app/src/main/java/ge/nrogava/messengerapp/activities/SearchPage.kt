@@ -1,26 +1,20 @@
-package ge.nrogava.messengerapp
+package ge.nrogava.messengerapp.activities
 
 import android.content.Intent
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Contacts
 import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import ge.nrogava.messengerapp.adapters.ChatsAdapter
+import ge.nrogava.messengerapp.R
 import ge.nrogava.messengerapp.adapters.PeopleAdapter
-import ge.nrogava.messengerapp.databinding.ActivityHomepageBinding
 import ge.nrogava.messengerapp.databinding.ActivitySearchPageBinding
 import ge.nrogava.messengerapp.util.afterTextChangedDelayed
 import ge.nrogava.messengerapp.util.toast
-import ge.nrogava.messengerapp.views.ChatsViewModel
 import ge.nrogava.messengerapp.views.PeopleViewModel
 
 class SearchPage : AppCompatActivity() {
@@ -33,7 +27,9 @@ class SearchPage : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivitySearchPageBinding= DataBindingUtil.setContentView(this, R.layout.activity_search_page)
+        val binding: ActivitySearchPageBinding= DataBindingUtil.setContentView(this,
+            R.layout.activity_search_page
+        )
         toast("Loading... Please Wait.")
         recyclerViewInit(binding)
         viewInitializations()
@@ -94,7 +90,7 @@ class SearchPage : AppCompatActivity() {
     private fun backButtonInit() {
         backButton=findViewById(R.id.back_button)
         backButton.setOnClickListener {
-            startActivity(Intent(this,HomePage::class.java))
+            startActivity(Intent(this, HomePage::class.java))
             finish()
         }
     }

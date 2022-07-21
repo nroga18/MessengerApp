@@ -16,7 +16,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".HomePage">
+        tools:context=".activities.HomePage">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"

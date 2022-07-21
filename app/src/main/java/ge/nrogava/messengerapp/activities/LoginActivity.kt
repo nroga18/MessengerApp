@@ -1,4 +1,4 @@
-package ge.nrogava.messengerapp
+package ge.nrogava.messengerapp.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import ge.nrogava.messengerapp.R
 import ge.nrogava.messengerapp.database.FirebaseRepository
 
 class LoginActivity : AppCompatActivity() {
@@ -22,9 +22,9 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login1)
 
-//        rep.fireBaseUser?.let{
-//            riderctToHomePage(true)
-//        }
+        rep.fireBaseUser?.let{
+            riderctToHomePage(true)
+        }
     }
     private fun riderctToHomePage(success: Boolean){
         if (success) {
@@ -45,8 +45,6 @@ class LoginActivity : AppCompatActivity() {
         rep.login(email, password,this, this::riderctToHomePage)
     }
 
-    fun signUp(view: View){
-        startActivity(Intent(this, SignUpActivity::class.java))
-    }
+
 
 }

@@ -10,19 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MessengerApp">
         <activity
-            android:name=".SignUpActivity"
+            android:name=".activities.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".HomePage"
+            android:name=".activities.HomePage"
             android:exported="false" />
         <activity
-            android:name=".SearchPage"
+            android:name=".activities.SearchPage"
             android:exported="false" />
         <activity
-            android:name=".ProfilePage"
+            android:name=".activities.ProfilePage"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

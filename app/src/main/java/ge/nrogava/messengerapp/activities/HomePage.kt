@@ -1,11 +1,9 @@
-package ge.nrogava.messengerapp
+package ge.nrogava.messengerapp.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
-import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.core.widget.addTextChangedListener
@@ -13,8 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import ge.nrogava.messengerapp.R
 import ge.nrogava.messengerapp.adapters.ChatsAdapter
 import ge.nrogava.messengerapp.databinding.ActivityHomepageBinding
 import ge.nrogava.messengerapp.util.toast
@@ -31,7 +28,9 @@ class HomePage : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding: ActivityHomepageBinding = DataBindingUtil.setContentView(this, R.layout.activity_homepage)
+        val binding: ActivityHomepageBinding = DataBindingUtil.setContentView(this,
+            R.layout.activity_homepage
+        )
 
 
         toast("Loading... Please Wait.")
@@ -102,7 +101,7 @@ class HomePage : AppCompatActivity() {
     private fun searchFabInit() {
         fab=findViewById(R.id.search_fab)
         fab.setOnClickListener {
-            startActivity(Intent(this,SearchPage::class.java))
+            startActivity(Intent(this, SearchPage::class.java))
             finish()
         }
     }
@@ -117,12 +116,12 @@ class HomePage : AppCompatActivity() {
 
             if(it.itemId != R.id.home) {
 
-                startActivity(Intent(this,ProfilePage::class.java))
+                startActivity(Intent(this, ProfilePage::class.java))
                 finish()
             }
         }
 
-        bottomNav.selectedItemId=R.id.settings
+        bottomNav.selectedItemId= R.id.settings
 
     }
 }
