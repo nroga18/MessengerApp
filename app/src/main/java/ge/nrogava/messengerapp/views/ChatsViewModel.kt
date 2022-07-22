@@ -8,7 +8,7 @@ import ge.nrogava.messengerapp.database.Chat
 import ge.nrogava.messengerapp.database.FirebaseRepository
 
 class ChatsViewModel : ViewModel() {
-    private val rep=FirebaseRepository()
+    private val rep=FirebaseRepository
 
     private val _chatsLiveData=MutableLiveData<List<Chat>>()
     val chatsLiveData: LiveData<List<Chat>> = _chatsLiveData

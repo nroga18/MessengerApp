@@ -9,28 +9,71 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 //import ge.nrogava.messengerapp.util.toast
 
 
 
-class FirebaseRepository {
+object FirebaseRepository {
    val db=Firebase.database
    val firebaseAuth : FirebaseAuth =Firebase.auth
    val dbRef=db.getReference("chats")
-   val peopleRef=db.getReference("people")
+   val peopleRef=db.getReference("users")
    var fireBaseUser : FirebaseUser?
    var person : Person?
    private val mail = "@freeuni.edu.ge"
 
 
    init {
-      person = null
+
       fireBaseUser = Firebase.auth.currentUser
+
+      person = null
+
       if (fireBaseUser != null) {
+         person=getAndSetupCurrentUser()
+         Log.d("User", fireBaseUser!!.uid.toString())
+         Log.d("CurrentUserLog4", person.toString())
 
       }
    }
+
+    fun updateCurrentUser(newNickname : String, newOccupation : String) {
+      peopleRef.child(fireBaseUser!!.uid).child("occupation").setValue(newOccupation)
+      peopleRef.child(fireBaseUser!!.uid).child("nickname").setValue(newNickname)
+       Log.d("CurrentUserLog4", person.toString())
+       fireBaseUser = Firebase.auth.currentUser
+
+
+       person = null
+
+       if (fireBaseUser != null) {
+           fireBaseUser!!.updateEmail(newNickname+mail)
+            person=getAndSetupCurrentUser()
+          Log.d("User", fireBaseUser!!.uid.toString())
+          Log.d("CurrentUserLog4", person.toString())
+
+       }
+   }
+
+    private fun getAndSetupCurrentUser():Person {
+
+       val localPerson=Person("placeholder1","placeholder2")
+
+          peopleRef.child(fireBaseUser!!.uid).child("occupation").get().addOnSuccessListener {
+
+             data -> localPerson.occupation = data.value as String
+          }
+          peopleRef.child(fireBaseUser!!.uid).child("nickname").get().addOnSuccessListener {
+
+             data -> localPerson.nickname = data.value as String
+          }
+
+       return localPerson
+
+   }
+
    fun signOut() {
 
       fireBaseUser = null
@@ -105,6 +148,7 @@ class FirebaseRepository {
                Toast.LENGTH_LONG
             ).show()
             completion(false)
+
          }
    }
    fun saveUserToDatabase(nickname: String, occupation: String) {
@@ -155,7 +199,6 @@ class FirebaseRepository {
          }
       })
 
-
    }
 
    fun searchChats(liveData : MutableLiveData<List<Chat>>, person: String) {
@@ -200,17 +243,20 @@ class FirebaseRepository {
    }
 
    fun getAllPeople(liveData : MutableLiveData<List<Person>>) {
+
       peopleRef.addValueEventListener(object : ValueEventListener {
          override fun onDataChange(snapshot: DataSnapshot) {
-            Log.i("Firebase",snapshot.value.toString())
+            Log.i("SearchUsers",snapshot.value.toString())
             val persons : List<Person> = snapshot.children.map {
 
-                  dataSnapshot ->  dataSnapshot.getValue(Person::class.java)!!
+                  dataSnapshot ->
+               dataSnapshot.getValue(Person::class.java)!!
+
+
 
             }
-
             liveData.postValue(persons)
-
+            Log.d("Amount", persons.size.toString())
          }
 
          override fun onCancelled(error: DatabaseError) {

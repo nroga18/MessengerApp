@@ -9,7 +9,7 @@ import ge.nrogava.messengerapp.database.Person
 
 class PeopleViewModel : ViewModel() {
 
-    private val rep= FirebaseRepository()
+    private val rep= FirebaseRepository
 
     private val _peopleLiveData= MutableLiveData<List<Person>>()
     val peopleLiveData: LiveData<List<Person>> = _peopleLiveData

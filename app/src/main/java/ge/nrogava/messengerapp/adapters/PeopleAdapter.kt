@@ -29,10 +29,8 @@ class PeopleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         private val binding= SearchListViewBinding.bind(itemView)
 
-
-
         fun onBind(person: Person) {
-
+            Log.d("Amount",person.nickname)
             binding.nickname.text=person.nickname
             binding.occupation.text=person.occupation
 
@@ -46,6 +44,7 @@ class PeopleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
+
         return peopleItems.size
     }
 

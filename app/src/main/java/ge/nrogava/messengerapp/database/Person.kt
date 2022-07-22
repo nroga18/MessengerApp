@@ -1,6 +1,14 @@
 package ge.nrogava.messengerapp.database
 
+import android.util.Log
 
-data class Person(val nickname: String = "", var occupation: String = "") {
+
+data class Person(var nickname: String = "", var occupation: String = "") {
+
+   init {
+     Log.d("CurrentUserLogInit",nickname)
+     Log.d("CurrentUserLogInit",occupation)
+   }
+
 
 }

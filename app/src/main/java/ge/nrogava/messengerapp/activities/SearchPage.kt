@@ -49,9 +49,12 @@ class SearchPage : AppCompatActivity() {
         viewModel.getAllPeople()
 
         viewModel.peopleLiveData.observe(this) {
-                chatItems -> peopleAdapter.setItems(chatItems)
-            Log.d("RV","In Activity")
+            peopleItems -> peopleAdapter.setItems(peopleItems )
+           //     chatItems -> peopleAdapter.setItems(chatItems)
+            Log.d("AmountPeopleItems",peopleItems.toString())
         }
+        Log.d("AmountVM", viewModel.getAllPeople().toString())
+
     }
 
 

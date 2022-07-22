@@ -13,11 +13,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ge.nrogava.messengerapp.R
 import ge.nrogava.messengerapp.adapters.ChatsAdapter
+import ge.nrogava.messengerapp.database.FirebaseRepository
 import ge.nrogava.messengerapp.databinding.ActivityHomepageBinding
 import ge.nrogava.messengerapp.util.toast
 import ge.nrogava.messengerapp.views.ChatsViewModel
 
 class HomePage : AppCompatActivity() {
+
 
     lateinit var bottomNav : BottomNavigationView
     lateinit var fab:FloatingActionButton
@@ -28,6 +30,7 @@ class HomePage : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val binding: ActivityHomepageBinding = DataBindingUtil.setContentView(this,
             R.layout.activity_homepage
         )

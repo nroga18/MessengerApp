@@ -12,7 +12,7 @@ import ge.nrogava.messengerapp.database.FirebaseRepository
 
 class LoginActivity : AppCompatActivity() {
 
-    private val rep= FirebaseRepository()
+    private val rep= FirebaseRepository
     lateinit var emailTxt : TextView
     lateinit var passwordTxt : TextView
     lateinit var progressBar: ProgressBar

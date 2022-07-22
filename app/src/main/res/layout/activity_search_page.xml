@@ -77,7 +77,8 @@
     <RelativeLayout
         android:id="@+id/search_relative_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/materialToolbar"
         app:layout_constraintLeft_toLeftOf="parent">
 
@@ -93,7 +94,6 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchRecyclerView"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
