@@ -1,18 +1,27 @@
 package ge.nrogava.messengerapp.activities
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 import ge.nrogava.messengerapp.R
 import ge.nrogava.messengerapp.database.FirebaseRepository
 import ge.nrogava.messengerapp.database.Person
 import ge.nrogava.messengerapp.util.toast
+import java.util.*
+
 
 class ProfilePage : AppCompatActivity() {
     private val rep = FirebaseRepository
@@ -22,11 +31,14 @@ class ProfilePage : AppCompatActivity() {
     lateinit var occupationText: EditText
     var person = rep.person!!
     lateinit var updateButton : Button
+    lateinit var imageView : CircleImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_page)
         viewInitializations()
+
+
 
     }
 
@@ -41,6 +53,45 @@ class ProfilePage : AppCompatActivity() {
         searchFabInit()
         editTextInit()
         updateButtonInit()
+        profilePictureInit()
+    }
+
+    fun profilePictureInit() {
+        imageView =findViewById<CircleImageView>(R.id.profile_image_large)
+
+        rep.peopleRef.child(rep.fireBaseUser?.uid.toString()).child("url").get().addOnSuccessListener {
+                Picasso.get().load(it.value.toString()).into(imageView)
+        }
+        //quality of code should be improved here
+
+        imageView.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type="image/*"
+            startActivityForResult(intent, 0)
+        }
+    }
+
+    var photoFromGallery : Uri? =null;
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==0 && resultCode==Activity.RESULT_OK && data!=null) {
+            photoFromGallery=data.data
+            val bitmap= MediaStore.Images.Media.getBitmap(contentResolver,photoFromGallery)
+            imageView.setImageBitmap(bitmap)
+            addToStorage()
+        }
+
+    }
+
+    fun addToStorage() {
+        val uniqueID= UUID.randomUUID().toString()
+        val storage = FirebaseStorage.getInstance().getReference("/images/$uniqueID")
+        storage.putFile(photoFromGallery!!).addOnSuccessListener {
+            storage.downloadUrl.addOnSuccessListener {
+                rep.saveImageInRealtimeDatabase(it.toString())
+            }
+        }
     }
 
      fun editTextInit() {

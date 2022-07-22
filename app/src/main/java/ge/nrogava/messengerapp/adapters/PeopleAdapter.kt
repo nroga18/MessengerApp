@@ -5,15 +5,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.FirebaseDatabase
+import com.squareup.picasso.Picasso
 import ge.nrogava.messengerapp.R
 import ge.nrogava.messengerapp.database.Chat
+import ge.nrogava.messengerapp.database.FirebaseRepository
 import ge.nrogava.messengerapp.database.Person
 import ge.nrogava.messengerapp.databinding.ConversationListViewBinding
 import ge.nrogava.messengerapp.databinding.SearchListViewBinding
 
 class PeopleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
+    private val rep = FirebaseRepository
     private val peopleItems = mutableListOf<Person>()
 
 
@@ -33,6 +36,14 @@ class PeopleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             Log.d("Amount",person.nickname)
             binding.nickname.text=person.nickname
             binding.occupation.text=person.occupation
+            Log.d("Picasso",person.toString())
+            Log.d("Picasso",person.url)
+            if(person.url.isNotEmpty()) {
+                Picasso.get().load(person.url).into(binding.profileImage)
+            } else {
+                binding.profileImage.setImageResource(R.drawable.avatar_image_placeholder)
+                Log.d("PicassoNull",person.url)
+            }
 
         }
 

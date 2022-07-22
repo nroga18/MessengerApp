@@ -39,6 +39,34 @@ object FirebaseRepository {
       }
    }
 
+   fun currentUserPicture(): String {
+      val uid= Firebase.auth.currentUser?.uid
+      var url:String = ""
+      if (uid != null) {
+         peopleRef.child(uid).child("url").get().addOnSuccessListener {
+               data -> url=data.value as String
+
+            Log.d("PictureData2", url)
+
+            Log.d("PictureData", data.value.toString())
+         }
+         Log.d("PictureData3", url)
+         return url
+      }
+
+      Log.d("Picture1", url)
+      return url
+   }
+
+   fun saveImageInRealtimeDatabase(url : String) {
+      val uid= Firebase.auth.currentUser?.uid
+      if (uid != null) {
+         peopleRef.child(uid).child("url").setValue(url)
+      }
+
+
+   }
+
     fun updateCurrentUser(newNickname : String, newOccupation : String) {
       peopleRef.child(fireBaseUser!!.uid).child("occupation").setValue(newOccupation)
       peopleRef.child(fireBaseUser!!.uid).child("nickname").setValue(newNickname)
@@ -251,8 +279,6 @@ object FirebaseRepository {
 
                   dataSnapshot ->
                dataSnapshot.getValue(Person::class.java)!!
-
-
 
             }
             liveData.postValue(persons)
