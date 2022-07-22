@@ -15,4 +15,6 @@
     <string name="occupation">Manager</string>
     <string name="fabHome">fab</string>
     <string name="back_button_search">backButtonSearch</string>
+    <string name="message_example">გამარჯობა, როგორ ხარ? </string>
+    <string name="time_example">02:47</string>
 </resources>

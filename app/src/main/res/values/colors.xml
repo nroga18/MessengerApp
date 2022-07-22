@@ -10,6 +10,7 @@
     <color name="grey">#7A7979</color>
     <color name="grey_hint">#9F9D9D</color>
     <color name="theme_blue" >#095FAC</color>
+    <color name="received_msg_color" >#7FBAEF</color>
     <color name="edit_text" >#D6D6D6</color>
     <color name="edit_text_color" >#3C3C3C</color>
 </resources>

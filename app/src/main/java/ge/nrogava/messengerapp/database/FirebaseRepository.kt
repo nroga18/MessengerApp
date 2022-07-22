@@ -267,15 +267,13 @@ object FirebaseRepository {
 
    }
 
+    fun searchMessages(_messagesLiveData: MutableLiveData<List<Message>>, person: String) {
 
+    }
 
+   fun getAllMessages(_messagesLiveData: MutableLiveData<List<Message>>) {
 
-
-
-
-
-
-
+   }
 
 
 }
