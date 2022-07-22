@@ -49,8 +49,10 @@
     <dimen name="not_registered_margin">8dp</dimen>
     <dimen name="btn_top_margin">24dp</dimen>
     <dimen name="txt_top_margin">32dp</dimen>
+    <dimen name="message_height">52dp</dimen>
     <dimen name="login_text_padding">11dp</dimen>
-
+    <dimen name="message_padding">86dp</dimen>
+    <dimen name="image_width">40dp</dimen>
 
 
 

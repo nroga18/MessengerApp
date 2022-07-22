@@ -1,9 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.ChatActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_image_res_large"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            android:fitsSystemWindows="true"
+            android:layout_width="match_parent"
+            >
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_gravity="bottom"
+                app:layout_collapseMode="pin"
+                android:layout_height="@dimen/back_button_dimen_height"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/chat_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_profile"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginStart="@dimen/txt_top_margin"
+                        android:text="Nanuka Rogava"
+                        android:textColor="@color/white"
+                        />
+
+                    <TextView
+                        android:id="@+id/chat_profession"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/occupation_text_size"
+                        app:layout_constraintStart_toStartOf="@+id/chat_username"
+                        app:layout_constraintTop_toBottomOf="@+id/chat_username"
+                        android:layout_height="wrap_content"
+                        android:text="@string/occupation"
+                        />
+
+                    <ImageView
+                        android:id="@+id/chat_back"
+                        android:layout_width="@dimen/nickname_margin_start"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_baseline_arrow_back_ios_24"
+                        android:layout_height="@dimen/nickname_margin_start"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="@dimen/image_width"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/avatar_image_placeholder"
+                        android:layout_height="@dimen/image_width"
+                        android:layout_marginEnd="@dimen/btn_top_margin"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_chat"
+        android:paddingBottom="@dimen/message_padding"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:itemCount="20"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/message_item" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/white"
+        >
+
+        <EditText
+            android:id="@+id/txt_message"
+            android:textAlignment="gravity"
+            android:padding="@dimen/button_margin"
+            android:background="@drawable/rounded_edit_text_profile"
+            style="@style/login_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/message_height"
+            android:layout_marginBottom="@dimen/btn_top_margin"
+            android:hint="@string/message"
+            android:textSize="@dimen/occupation_text_size"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+        </EditText>
+
+        <ImageView
+            android:id="@+id/btn_send_message"
+            android:layout_width="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/txt_message"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/button_margin"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_message"
+            app:layout_constraintTop_toTopOf="@+id/txt_message"
+            app:srcCompat="@drawable/ic_baseline_send_24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
