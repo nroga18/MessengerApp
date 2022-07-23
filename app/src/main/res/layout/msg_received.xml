@@ -7,7 +7,7 @@
     android:layout_margin="@dimen/button_margin">
 
     <TextView
-        android:id="@+id/txt_received_msg"
+        android:id="@+id/txt_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/search_end_margin"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/received_time"
+        android:id="@+id/txt_time"
         android:layout_width="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

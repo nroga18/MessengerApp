@@ -301,5 +301,17 @@ object FirebaseRepository {
 
    }
 
+   fun displayChatmessages(messages: ArrayList<Message>, user: String, any: Any) {
+
+   }
+
+   fun getOccupationByNickname(nickname: String): CharSequence? {
+      return ""
+   }
+
+   fun sendMessageFromChat(nickname: String, message: String) {
+
+   }
+
 
 }

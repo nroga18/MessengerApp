@@ -13,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ge.nrogava.messengerapp.R
 import ge.nrogava.messengerapp.adapters.ChatsAdapter
+import ge.nrogava.messengerapp.database.Chat
 import ge.nrogava.messengerapp.database.FirebaseRepository
 import ge.nrogava.messengerapp.databinding.ActivityHomepageBinding
 import ge.nrogava.messengerapp.util.toast
@@ -27,6 +28,7 @@ class HomePage : AppCompatActivity() {
     lateinit var viewModel:ChatsViewModel
     lateinit var chatsAdapter:ChatsAdapter
     lateinit var progressBar: ProgressBar
+    private var chatList: ArrayList<Chat> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,5 +128,10 @@ class HomePage : AppCompatActivity() {
 
         bottomNav.selectedItemId= R.id.settings
 
+    }
+    fun onClick(position: Int) {
+        val intentForChatActivity = Intent(this, ChatActivity::class.java)
+        intentForChatActivity.putExtra("chat", chatList[position].user)
+        startActivity(intentForChatActivity)
     }
 }

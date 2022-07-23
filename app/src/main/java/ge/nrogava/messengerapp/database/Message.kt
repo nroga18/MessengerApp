@@ -1,4 +1,4 @@
 package ge.nrogava.messengerapp.database
 
-data class Message (val sentOrReceived:Boolean = true,val time: String = "", val message: String = "") {
+data class Message (val sentOrReceived:Boolean = true, val message: String = "",val time: Long = System.currentTimeMillis()) {
 }
