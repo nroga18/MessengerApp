@@ -43,7 +43,7 @@ class SearchPage : AppCompatActivity() {
         binding.lifecycleOwner=this
         binding.viewModel=viewModel
 
-        peopleAdapter=PeopleAdapter()
+        peopleAdapter=PeopleAdapter(this)
         binding.searchRecyclerView.adapter=peopleAdapter
 
         viewModel.getAllPeople()

@@ -1,6 +1,9 @@
 package ge.nrogava.messengerapp.adapters
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,13 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import ge.nrogava.messengerapp.R
+import ge.nrogava.messengerapp.activities.ChatActivity
 import ge.nrogava.messengerapp.database.Chat
 import ge.nrogava.messengerapp.database.FirebaseRepository
 import ge.nrogava.messengerapp.database.Person
 import ge.nrogava.messengerapp.databinding.ConversationListViewBinding
 import ge.nrogava.messengerapp.databinding.SearchListViewBinding
 
-class PeopleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PeopleAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val rep = FirebaseRepository
     private val peopleItems = mutableListOf<Person>()
@@ -50,6 +54,20 @@ class PeopleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        holder.itemView.setOnClickListener {
+            val intent= Intent(context, ChatActivity::class.java)
+            //it.context
+            intent.putExtra("nicknameSearch",peopleItems[position].nickname)
+            intent.putExtra("url",peopleItems[position].url)
+            intent.putExtra("occupation",peopleItems[position].occupation)
+            intent.putExtra("Source", "Search");
+            context.startActivity(intent)
+            (context as Activity).finish()
+            Log.d("StartActivity","Here")
+            Log.d("startActivity","Here")
+
+            Log.d("StartActivity","Here")
+        }
         (holder as PeopleViewHolder).onBind(peopleItems[position])
 
     }

@@ -59,8 +59,12 @@ class ProfilePage : AppCompatActivity() {
     fun profilePictureInit() {
         imageView =findViewById<CircleImageView>(R.id.profile_image_large)
 
+
+
         rep.peopleRef.child(rep.fireBaseUser?.uid.toString()).child("url").get().addOnSuccessListener {
+            if(it.value.toString().length>1) {
                 Picasso.get().load(it.value.toString()).into(imageView)
+            }
         }
         //quality of code should be improved here
 
