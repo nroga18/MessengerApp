@@ -11,6 +11,8 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import ge.nrogava.messengerapp.adapters.MessagesAdapter
+
 //import ge.nrogava.messengerapp.util.toast
 
 
@@ -20,6 +22,7 @@ object FirebaseRepository {
    val firebaseAuth : FirebaseAuth =Firebase.auth
    val dbRef=db.getReference("chats")
    val peopleRef=db.getReference("users")
+   val messagesRef=db.getReference("messages")
    var fireBaseUser : FirebaseUser?
    var person : Person?
    private val mail = "@freeuni.edu.ge"
@@ -300,8 +303,31 @@ object FirebaseRepository {
 
    }
 
-   fun displayChatmessages(messages: ArrayList<Message>, user: String, any: Any) {
+   fun displayChatmessages(messages: ArrayList<Message>, user: Person, any: Any) {
+      var receiverUid = fireBaseUser?.uid?:""
+      var senderUid = user.uid
 
+//      messagesRef.orderByChild("nickname").equalTo(nickname)
+//         .addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//               Log.i("Firebase", snapshot.value.toString())
+//               val persons : List<Person> = snapshot.children.map {
+//
+//                     dataSnapshot ->
+//                  dataSnapshot.getValue(Person::class.java)!!
+//
+//               }
+//               if(persons.count() > 0){
+//                  receiver = persons[0]
+//                  completion(receiver)
+//               }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//               //
+//            }
+//         })
+//      return receiver
    }
 
    fun getOccupationByNickname(nickname: String): CharSequence? {
@@ -310,14 +336,14 @@ object FirebaseRepository {
 
    fun sendMessageFromChat(toId: String, messageText: String) {
       var fromId = fireBaseUser?.uid?:""
-      val ref = FirebaseDatabase.getInstance().getReference("/messages").push()
+      val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+      val ref1 = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
       val message = Message(true, ref.key!!, fromId, toId, messageText)
-      ref.setValue(message).addOnSuccessListener {
-
-      }
+      ref.setValue(message)
+      ref1.setValue(message)
    }
 
-   fun getUserByNickname(nickname: String, completion: (String) -> Unit,): Person {
+   fun getUserByNickname(nickname: String, completion: (Person) -> Unit,): Person {
       var receiver = Person()
       peopleRef.orderByChild("nickname").equalTo(nickname)
          .addValueEventListener(object : ValueEventListener {
@@ -331,7 +357,7 @@ object FirebaseRepository {
                }
                if(persons.count() > 0){
                   receiver = persons[0]
-                  completion(receiver.uid)
+                  completion(receiver)
                }
             }
 
@@ -340,6 +366,37 @@ object FirebaseRepository {
             }
          })
       return receiver
+   }
+
+   fun listenForMessages(toId : String, completion: (Message) -> Unit) {
+      var fromId = fireBaseUser?.uid?:""
+      val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
+      ref.addChildEventListener(object : ChildEventListener{
+         override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+            var m = snapshot.getValue(Message::class.java)
+            if(m != null){
+               m.sentOrReceived = m.fromId == fromId
+               completion(m)
+            }
+         }
+
+         override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+            TODO("Not yet implemented")
+         }
+
+         override fun onChildRemoved(snapshot: DataSnapshot) {
+            TODO("Not yet implemented")
+         }
+
+         override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+            TODO("Not yet implemented")
+         }
+
+         override fun onCancelled(error: DatabaseError) {
+            TODO("Not yet implemented")
+         }
+
+      })
    }
 
 

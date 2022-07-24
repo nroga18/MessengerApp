@@ -1,9 +1,10 @@
 package ge.nrogava.messengerapp.database
 
-data class Message (val sentOrReceived:Boolean
+data class Message (var sentOrReceived:Boolean
                     ,var key : String
                     ,var fromId : String
                     ,var toId : String
-                    ,val message: String = "",
-                    val time: Long = System.currentTimeMillis() / 1000) {
+                    ,var message: String = "",
+                    var time: Long = System.currentTimeMillis() / 1000) {
+    constructor() : this(true, "", "", "", "")
 }

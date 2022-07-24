@@ -13,6 +13,7 @@ import ge.nrogava.messengerapp.R
 import ge.nrogava.messengerapp.adapters.MessagesAdapter
 import ge.nrogava.messengerapp.database.FirebaseRepository
 import ge.nrogava.messengerapp.database.Message
+import ge.nrogava.messengerapp.database.Person
 
 class ChatActivity : AppCompatActivity() {
 
@@ -24,26 +25,35 @@ class ChatActivity : AppCompatActivity() {
     lateinit var messageInputTxt: TextView
     lateinit var messageReceiverOccupation: TextView
     lateinit var nickname : String
-    lateinit var receiverUid : String
+    lateinit var receiver : Person
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-
+        receiver = Person()
         nickname = intent.getStringExtra("nickname")!!
-        nickname = "giorgi"
-        receiverUid = "564564"
-        var receiver = rep.getUserByNickname(nickname, this::setToId)
-        setMessageListOnChat(nickname)
+        rep.getUserByNickname(nickname, this::setToId)
+        setMessageListOnChat()
         setChatBackButtonListener()
         setReceiverNameOnChat()
         setReceiverOccupationOnChat()
         setInputTextListener()
         setLinearLayoutManagerToChatsView()
+
+
     }
-    private fun setToId(uid : String){
-        receiverUid = uid
+
+    private fun listenForMessages() {
+        rep.listenForMessages(receiver.uid, this::updateList)
+    }
+    private fun updateList(m : Message){
+        messages.add(m)
+        setMessageListOnChat()
+    }
+    private fun setToId(r : Person){
+        receiver = r
+        listenForMessages()
     }
     private fun setLinearLayoutManagerToChatsView() {
         val linearLayoutManager = LinearLayoutManager(this)
@@ -60,9 +70,9 @@ class ChatActivity : AppCompatActivity() {
 
     fun sendMessageFromChat(view : View){
         val message = messageInputTxt.text.toString()
-        //messages.add(Message( true, ))
+        //messages.add(Message( true,"", "", "", message ))
         updateMessagesInChat()
-        rep.sendMessageFromChat(receiverUid, message)
+        rep.sendMessageFromChat(receiver.uid, message)
         findViewById<EditText>(R.id.txt_message).text.clear()
     }
     private fun setReceiverOccupationOnChat() {
@@ -82,8 +92,8 @@ class ChatActivity : AppCompatActivity() {
             finish()
         }
     }
-    private fun setMessageListOnChat(user: String) {
-        rep.displayChatmessages(messages, user, this::updateMessagesInChat)
+    private fun setMessageListOnChat() {
+        rep.displayChatmessages(messages, receiver, this::updateMessagesInChat)
         chatsView = findViewById(R.id.recycler_chat)
         chatsView.adapter = MessagesAdapter(messages)
     }
