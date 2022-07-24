@@ -19,7 +19,7 @@ import ge.nrogava.messengerapp.databinding.ActivityHomepageBinding
 import ge.nrogava.messengerapp.util.toast
 import ge.nrogava.messengerapp.views.ChatsViewModel
 
-class HomePage : AppCompatActivity() {
+class HomePage : AppCompatActivity() , Listener{
 
 
     lateinit var bottomNav : BottomNavigationView
@@ -59,7 +59,7 @@ class HomePage : AppCompatActivity() {
         binding.lifecycleOwner=this
         binding.viewModel=viewModel
 
-        chatsAdapter=ChatsAdapter()
+        chatsAdapter=ChatsAdapter(this)
         binding.conversationsRecyclerView.adapter=chatsAdapter
         viewModel.getAllChats()
 
@@ -129,7 +129,7 @@ class HomePage : AppCompatActivity() {
         bottomNav.selectedItemId= R.id.settings
 
     }
-    fun onClick(position: Int) {
+    override fun onClick(position: Int) {
         val intentForChatActivity = Intent(this, ChatActivity::class.java)
         intentForChatActivity.putExtra("chat", chatList[position].user)
         startActivity(intentForChatActivity)

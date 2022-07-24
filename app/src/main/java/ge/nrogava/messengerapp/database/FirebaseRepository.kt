@@ -87,7 +87,7 @@ object FirebaseRepository {
 
     private fun getAndSetupCurrentUser():Person {
 
-       val localPerson=Person("placeholder1","placeholder2")
+       val localPerson=Person("placeholder1","placeholder2", "")
 
           peopleRef.child(fireBaseUser!!.uid).child("occupation").get().addOnSuccessListener {
 
@@ -142,9 +142,8 @@ object FirebaseRepository {
                .addOnCompleteListener { task ->
                   if (task.isSuccessful) {
                      fireBaseUser = Firebase.auth.currentUser
-
                      saveUserToDatabase(nickname, occupation)
-                     person = Person(nickname, occupation)
+                     person = Person(nickname, occupation, fireBaseUser?.uid?:"")
                      completion(true)
                   } else {
                      Toast.makeText(
@@ -183,7 +182,7 @@ object FirebaseRepository {
       val userId = FirebaseAuth.getInstance().uid?:""
       val ref = FirebaseDatabase.getInstance().getReference("/users/$userId")
 
-      val user = Person(nickname,occupation)
+      val user = Person(nickname,occupation, userId)
       ref.setValue(user).addOnSuccessListener {  }
    }
    fun findUserByUID(uid: String){
@@ -309,8 +308,38 @@ object FirebaseRepository {
       return ""
    }
 
-   fun sendMessageFromChat(nickname: String, message: String) {
+   fun sendMessageFromChat(toId: String, messageText: String) {
+      var fromId = fireBaseUser?.uid?:""
+      val ref = FirebaseDatabase.getInstance().getReference("/messages").push()
+      val message = Message(true, ref.key!!, fromId, toId, messageText)
+      ref.setValue(message).addOnSuccessListener {
 
+      }
+   }
+
+   fun getUserByNickname(nickname: String, completion: (String) -> Unit,): Person {
+      var receiver = Person()
+      peopleRef.orderByChild("nickname").equalTo(nickname)
+         .addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+               Log.i("Firebase", snapshot.value.toString())
+               val persons : List<Person> = snapshot.children.map {
+
+                     dataSnapshot ->
+                  dataSnapshot.getValue(Person::class.java)!!
+
+               }
+               if(persons.count() > 0){
+                  receiver = persons[0]
+                  completion(receiver.uid)
+               }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+               //
+            }
+         })
+      return receiver
    }
 
 

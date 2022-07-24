@@ -24,13 +24,17 @@ class ChatActivity : AppCompatActivity() {
     lateinit var messageInputTxt: TextView
     lateinit var messageReceiverOccupation: TextView
     lateinit var nickname : String
+    lateinit var receiverUid : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
 
-        nickname = intent.getStringExtra("chat")!!
+        nickname = intent.getStringExtra("nickname")!!
+        nickname = "giorgi"
+        receiverUid = "564564"
+        var receiver = rep.getUserByNickname(nickname, this::setToId)
         setMessageListOnChat(nickname)
         setChatBackButtonListener()
         setReceiverNameOnChat()
@@ -38,7 +42,9 @@ class ChatActivity : AppCompatActivity() {
         setInputTextListener()
         setLinearLayoutManagerToChatsView()
     }
-
+    private fun setToId(uid : String){
+        receiverUid = uid
+    }
     private fun setLinearLayoutManagerToChatsView() {
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.stackFromEnd = true
@@ -52,11 +58,11 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    fun sendMessageFromChat(){
+    fun sendMessageFromChat(view : View){
         val message = messageInputTxt.text.toString()
-        messages.add(Message( true, message))
+        //messages.add(Message( true, ))
         updateMessagesInChat()
-        rep.sendMessageFromChat(nickname, message)
+        rep.sendMessageFromChat(receiverUid, message)
         findViewById<EditText>(R.id.txt_message).text.clear()
     }
     private fun setReceiverOccupationOnChat() {

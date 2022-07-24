@@ -1,17 +1,22 @@
 package ge.nrogava.messengerapp.adapters
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.recyclerview.widget.RecyclerView
 import ge.nrogava.messengerapp.R
+import ge.nrogava.messengerapp.activities.ChatActivity
+import ge.nrogava.messengerapp.activities.Listener
 
 import ge.nrogava.messengerapp.database.Chat
 import ge.nrogava.messengerapp.databinding.ConversationListViewBinding
 
-class ChatsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
+class ChatsAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
     private val chatItems = mutableListOf<Chat>()
 
@@ -23,8 +28,9 @@ class ChatsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
     }
 
     inner class ChatsViewHolder(parent : ViewGroup) : RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.conversation_list_view,parent, false)
-    ) {
+        LayoutInflater.from(parent.context).inflate(R.layout.conversation_list_view,parent, false))
+
+     {
 
         private val binding= ConversationListViewBinding.bind(itemView)
 
@@ -40,9 +46,22 @@ class ChatsAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
         }
 
-    }
+//         override fun onClick(p0: View?) {
+//             listener.onClick(adapterPosition)
+//         }
+
+     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        holder.itemView.setOnClickListener{
+            val intent = Intent(context, ChatActivity :: class.java)
+            intent.putExtra("nickname", chatItems[position].user)
+            context.startActivity(intent)
+            (context as Activity).finish()
+        }
+
+
+
         (holder as ChatsViewHolder).onBind(chatItems[position])
 
     }
