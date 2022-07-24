@@ -132,6 +132,7 @@ class HomePage : AppCompatActivity() , Listener{
     override fun onClick(position: Int) {
         val intentForChatActivity = Intent(this, ChatActivity::class.java)
         intentForChatActivity.putExtra("chat", chatList[position].user)
+        Log.d("nickname",chatList[position].user)
         startActivity(intentForChatActivity)
     }
 }

@@ -1,12 +1,13 @@
 package ge.nrogava.messengerapp.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ge.nrogava.messengerapp.R
@@ -31,9 +32,20 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        receiver = Person()
-        nickname = intent.getStringExtra("nickname")!!
-        rep.getUserByNickname(nickname, this::setToId)
+        receiver = Person("","","")
+
+        //--------------------------------
+        val source = intent.getStringExtra("Source")
+        if(source=="Home") {
+            nickname = intent.getStringExtra("nickname")!!
+            rep.getUserByNickname(nickname, this::setToId)
+        } else {
+            nickname = intent.getStringExtra("nicknameSearch")!!
+            rep.getUserByNickname(nickname, this::setToId)
+        }
+
+        //--------------------------------
+
         setMessageListOnChat()
         setChatBackButtonListener()
         setReceiverNameOnChat()
@@ -53,6 +65,9 @@ class ChatActivity : AppCompatActivity() {
     }
     private fun setToId(r : Person){
         receiver = r
+
+        Log.d("IntentChatReceiver",receiver.nickname)
+
         listenForMessages()
     }
     private fun setLinearLayoutManagerToChatsView() {
@@ -72,6 +87,7 @@ class ChatActivity : AppCompatActivity() {
         val message = messageInputTxt.text.toString()
         //messages.add(Message( true,"", "", "", message ))
         updateMessagesInChat()
+        Log.d("IntentChatUID",receiver.uid.toString())
         rep.sendMessageFromChat(receiver.uid, message)
         findViewById<EditText>(R.id.txt_message).text.clear()
     }
@@ -99,8 +115,9 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun updateMessagesInChat(){
-        chatsView.adapter?.notifyDataSetChanged()
         chatsView.scrollToPosition(messages.size - 1)
+        chatsView.adapter?.notifyDataSetChanged()
+
     }
 
 }
