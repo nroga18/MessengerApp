@@ -70,7 +70,6 @@ class ChatActivity : AppCompatActivity() {
 
     fun sendMessageFromChat(view : View){
         val message = messageInputTxt.text.toString()
-        //messages.add(Message( true,"", "", "", message ))
         updateMessagesInChat()
         rep.sendMessageFromChat(receiver.uid, message)
         findViewById<EditText>(R.id.txt_message).text.clear()

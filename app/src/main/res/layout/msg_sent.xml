@@ -31,6 +31,6 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/button_margin"
-        android:text="@string/time_example"
+        tools:text="@string/time_example"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
