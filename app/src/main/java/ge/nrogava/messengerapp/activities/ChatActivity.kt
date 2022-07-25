@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ge.nrogava.messengerapp.R
 import ge.nrogava.messengerapp.adapters.MessagesAdapter
 import ge.nrogava.messengerapp.database.FirebaseRepository
@@ -27,12 +28,14 @@ class ChatActivity : AppCompatActivity() {
     lateinit var messageReceiverOccupation: TextView
     lateinit var nickname : String
     lateinit var receiver : Person
+    lateinit var profileImage: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
         receiver = Person("","","")
+        profileImage=findViewById(R.id.profile_image_in_chat)
 
         //--------------------------------
         val source = intent.getStringExtra("Source")
@@ -40,6 +43,10 @@ class ChatActivity : AppCompatActivity() {
             nickname = intent.getStringExtra("nickname")!!
             rep.getUserByNickname(nickname, this::setToId)
         } else {
+            val url=intent.getStringExtra("url")
+            if(url!!.length>1) {
+                Picasso.get().load(url).into(profileImage)
+            }
             nickname = intent.getStringExtra("nicknameSearch")!!
             rep.getUserByNickname(nickname, this::setToId)
         }
@@ -111,6 +118,7 @@ class ChatActivity : AppCompatActivity() {
         rep.displayChatmessages(messages, receiver, this::updateMessagesInChat)
         chatsView = findViewById(R.id.recycler_chat)
         chatsView.adapter = MessagesAdapter(messages)
+
     }
 
     private fun updateMessagesInChat(){

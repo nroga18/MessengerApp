@@ -66,8 +66,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         />
 
-                    <ImageView
-                        android:id="@+id/imageView2"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_image_in_chat"
                         android:layout_width="@dimen/image_width"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

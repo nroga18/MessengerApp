@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ge.nrogava.messengerapp.R
 import ge.nrogava.messengerapp.database.Message
+import ge.nrogava.messengerapp.util.calculateTime
 import java.text.SimpleDateFormat
 
 class MessagesAdapter (val messages: ArrayList<Message>): RecyclerView.Adapter<MessageRecyclerViewViewHolder>() {
@@ -35,7 +36,8 @@ class MessagesAdapter (val messages: ArrayList<Message>): RecyclerView.Adapter<M
     @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: MessageRecyclerViewViewHolder, ind: Int) {
         holder.message.text = messages[ind].message
-        holder.time.text = SimpleDateFormat("hh:mm").format(messages[ind].time)
+
+        holder.time.text = SimpleDateFormat("HH:mm").format(messages[ind].time*1000)
     }
 }
 

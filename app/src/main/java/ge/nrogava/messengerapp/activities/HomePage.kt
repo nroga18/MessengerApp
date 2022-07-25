@@ -131,7 +131,6 @@ class HomePage : AppCompatActivity() , Listener{
         bottomNav.setOnItemReselectedListener {
 
             if(it.itemId != R.id.home) {
-
                 startActivity(Intent(this, ProfilePage::class.java))
                 finish()
             }
@@ -143,6 +142,7 @@ class HomePage : AppCompatActivity() , Listener{
     override fun onClick(position: Int) {
         val intentForChatActivity = Intent(this, ChatActivity::class.java)
         intentForChatActivity.putExtra("chat", chatList[position].user)
+        Log.d("DecideIntent","1")
         Log.d("nickname",chatList[position].user)
         startActivity(intentForChatActivity)
     }
