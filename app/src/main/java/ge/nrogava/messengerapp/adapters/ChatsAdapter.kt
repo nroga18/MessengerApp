@@ -40,7 +40,13 @@ class ChatsAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.View
         fun onBind(chat: Chat) {
 
             binding.nickname.text=chat.user
-            binding.lastMessage.text=chat.recentMessage
+            if(chat.recentMessage.length>30) {
+                binding.lastMessage.text=chat.recentMessage.substring(0,25)+"..."
+            } else {
+                binding.lastMessage.text=chat.recentMessage
+            }
+
+
             binding.time.text= SimpleDateFormat("hh:mm").format(chat.time)
             Log.d("RV","In Adapter")
             Log.d("RV","Time: " + chat.time)

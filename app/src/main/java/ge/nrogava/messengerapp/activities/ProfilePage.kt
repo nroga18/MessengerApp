@@ -58,8 +58,7 @@ class ProfilePage : AppCompatActivity() {
 
     fun profilePictureInit() {
         imageView =findViewById<CircleImageView>(R.id.profile_image_large)
-
-
+        imageView.setBackgroundResource(R.drawable.avatar_image_placeholder)
 
         rep.peopleRef.child(rep.fireBaseUser?.uid.toString()).child("url").get().addOnSuccessListener {
             if(it.value.toString().length>1) {

@@ -89,7 +89,7 @@ object FirebaseRepository {
        }
    }
 
-    private fun getAndSetupCurrentUser():Person {
+     fun getAndSetupCurrentUser():Person {
 
        val localPerson=Person("placeholder1","placeholder2", "")
 
@@ -238,7 +238,9 @@ object FirebaseRepository {
 
    }
    fun getAllChats(liveData : MutableLiveData<List<Chat>>) {
+
       messagesRef.child(fireBaseUser?.uid?:"").addValueEventListener(object : ValueEventListener {
+
          override fun onDataChange(snapshot: DataSnapshot) {
             Log.i("Firebase",snapshot.value.toString())
 
@@ -267,7 +269,7 @@ object FirebaseRepository {
                var lastMessage = userMesages[k]?.get((userMesages[k]?.size ?: 0) -1)
                var user = ""
 
-                  if(person!!.nickname == lastMessage!!.fromIdNickname){
+                  if(fireBaseUser!!.uid == lastMessage!!.fromId){
                      user = lastMessage!!.toIdNickname
                   }else{
                      user = lastMessage!!.fromIdNickname

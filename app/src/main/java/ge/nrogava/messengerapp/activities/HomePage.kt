@@ -21,7 +21,7 @@ import ge.nrogava.messengerapp.views.ChatsViewModel
 
 class HomePage : AppCompatActivity() , Listener{
 
-
+    private val rep=FirebaseRepository
     lateinit var bottomNav : BottomNavigationView
     lateinit var fab:FloatingActionButton
     lateinit var search:EditText
@@ -29,11 +29,14 @@ class HomePage : AppCompatActivity() , Listener{
     lateinit var chatsAdapter:ChatsAdapter
     lateinit var progressBar: ProgressBar
     private var chatList: ArrayList<Chat> = arrayListOf()
+    private lateinit var binding: ActivityHomepageBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding: ActivityHomepageBinding = DataBindingUtil.setContentView(this,
+
+
+        binding = DataBindingUtil.setContentView(this,
             R.layout.activity_homepage
         )
 
@@ -49,10 +52,18 @@ class HomePage : AppCompatActivity() , Listener{
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        recyclerViewInit(binding)
+
+    }
+
     //onResume should be implemented - chat may have been added and progressBar should update.
 
 
     private fun recyclerViewInit(binding:ActivityHomepageBinding) {
+
+
 
 
         viewModel = ViewModelProvider(this)[ChatsViewModel::class.java]
