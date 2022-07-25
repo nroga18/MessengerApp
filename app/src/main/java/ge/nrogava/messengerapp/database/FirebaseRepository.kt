@@ -72,6 +72,7 @@ object FirebaseRepository {
    }
 
     fun updateCurrentUser(newNickname : String, newOccupation : String) {
+       var currUserId = fireBaseUser!!.uid
       peopleRef.child(fireBaseUser!!.uid).child("occupation").setValue(newOccupation)
       peopleRef.child(fireBaseUser!!.uid).child("nickname").setValue(newNickname)
        Log.d("CurrentUserLog4", person.toString())
@@ -87,6 +88,61 @@ object FirebaseRepository {
           Log.d("CurrentUserLog4", person.toString())
 
        }
+
+
+       messagesRef.addValueEventListener(object : ValueEventListener{
+          override fun onDataChange(snapshot: DataSnapshot) {
+
+             var users = mutableListOf<HashMap<String, MutableList<Message>>>()
+             var hashMap = snapshot.value as HashMap<*, *>
+             var counter = -1
+             for (userId in hashMap.keys) {
+                counter += 1
+                var receiverList = hashMap[userId] as HashMap<*, *>
+                users.add(HashMap<String, MutableList<Message>>())
+                for (receiverUid in receiverList.keys) {
+                   var receiverMessages = receiverList[receiverUid] as HashMap<*, *>
+                   var rUid = receiverUid as String
+                   users[counter][rUid] = mutableListOf<Message>()
+                   for (messageKey in receiverMessages.keys) {
+                      var m = receiverMessages[messageKey] as HashMap<*, *>
+                      var sendOrReceived = m["sentOrReceived"] as Boolean
+                      var key = m["key"] as String
+                      var fromId = m["fromId"] as String
+                      var toId = m["toId"] as String
+                      var toIdNickname = m["toIdNickname"] as String
+                      var fromIdNickname = m["fromIdNickname"] as String
+                      var message = m["message"] as String
+                      var time = m["time"] as Long
+                      var w = Message(
+                         sendOrReceived,
+                         key,
+                         fromId,
+                         toId,
+                         toIdNickname,
+                         fromIdNickname,
+                         message,
+                         time
+                      )
+                      if(fromId == currUserId){
+                         messagesRef.child(userId as String).child(receiverUid).child(messageKey as String).child("fromIdNickname")
+                            .setValue(newNickname)
+                      }
+                      if(toId == currUserId){
+                         messagesRef.child(userId as String).child(receiverUid).child(messageKey as String).child("toIdNickname")
+                            .setValue(newNickname)
+                      }
+                      users[counter][rUid]?.add(w)
+                   }
+                }
+             }
+          }
+
+          override fun onCancelled(error: DatabaseError) {
+             TODO("Not yet implemented")
+          }
+
+       })
    }
 
      fun getAndSetupCurrentUser():Person {
