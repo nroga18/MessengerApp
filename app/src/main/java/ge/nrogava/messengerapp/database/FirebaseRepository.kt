@@ -232,7 +232,7 @@ object FirebaseRepository {
          }
 
          override fun onCancelled(error: DatabaseError) {
-            //
+            Log.d("d", error.message)
          }
       })
 
@@ -291,7 +291,7 @@ object FirebaseRepository {
          }
 
          override fun onCancelled(error: DatabaseError) {
-            //
+            Log.d("d", error.message)
          }
       })
 
@@ -306,6 +306,7 @@ object FirebaseRepository {
          }
 
          override fun onCancelled(databaseError: DatabaseError) {
+            Log.d("d", databaseError.message)
          }
       }
       uidRef.addListenerForSingleValueEvent(valueEventListener)
@@ -348,7 +349,7 @@ object FirebaseRepository {
          }
 
          override fun onCancelled(error: DatabaseError) {
-            //
+            Log.d("d", error.message)
          }
       })
 
@@ -370,7 +371,7 @@ object FirebaseRepository {
          }
 
          override fun onCancelled(error: DatabaseError) {
-            //
+            Log.d("d", error.message)
          }
       })
 
@@ -421,8 +422,13 @@ object FirebaseRepository {
       val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
       val ref1 = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
       val message = Message(true, ref.key!!, fromId, toId,receiverNickname, person!!.nickname, messageText)
-      ref.setValue(message)
-      ref1.setValue(message)
+      if(toId!=fromId) {
+         ref.setValue(message)
+         ref1.setValue(message)
+      } else {
+         ref.setValue(message)
+      }
+
    }
 
    fun getUserByNickname(nickname: String, completion: (Person) -> Unit,): Person {
@@ -444,7 +450,7 @@ object FirebaseRepository {
             }
 
             override fun onCancelled(error: DatabaseError) {
-               //
+               Log.d("d", error.message)
             }
          })
       return receiver
@@ -469,7 +475,7 @@ object FirebaseRepository {
             }
 
             override fun onCancelled(error: DatabaseError) {
-               //
+               Log.d("d", error.message)
             }
          })
       return receiver

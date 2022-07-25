@@ -84,7 +84,7 @@
                     style="?android:attr/progressBarStyle"
                     android:layout_width="@dimen/progress_bar_dimen"
                     android:layout_height="@dimen/progress_bar_dimen"
-                    android:visibility="visible"
+                    android:visibility="invisible"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="@dimen/progress_bar_top_margin"
                     />

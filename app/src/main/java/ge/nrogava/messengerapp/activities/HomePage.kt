@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import androidx.core.widget.addTextChangedListener
@@ -40,6 +41,10 @@ class HomePage : AppCompatActivity() , Listener{
             R.layout.activity_homepage
         )
 
+        progressBar=findViewById(R.id.progress_bar)
+
+        progressBar.visibility= View.VISIBLE
+
 
         toast("Loading... Please Wait.")
 
@@ -47,6 +52,7 @@ class HomePage : AppCompatActivity() , Listener{
 
         recyclerViewInit(binding)
         viewInitializations()
+        progressBar.visibility= View.INVISIBLE
         toast("Loading Successful")
 
 
@@ -92,7 +98,7 @@ class HomePage : AppCompatActivity() , Listener{
 
 /*    private fun progressBarInit() {
 
-        progressBar=findViewById(R.id.progress_bar)
+
         toast("Loading... Please Wait.")
         progressBar.visibility= View.GONE
 
