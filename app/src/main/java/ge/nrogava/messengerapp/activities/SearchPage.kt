@@ -30,10 +30,13 @@ class SearchPage : AppCompatActivity() {
         val binding: ActivitySearchPageBinding= DataBindingUtil.setContentView(this,
             R.layout.activity_search_page
         )
+        progressBar=findViewById(R.id.progress_bar_search)
+        progressBar.visibility= View.VISIBLE
         toast("Loading... Please Wait.")
         recyclerViewInit(binding)
         viewInitializations()
         toast("Loading Successful")
+        progressBar.visibility= View.INVISIBLE
     }
 
     private fun recyclerViewInit(binding:ActivitySearchPageBinding) {
@@ -66,8 +69,8 @@ class SearchPage : AppCompatActivity() {
 
     private fun searchBarInit() {
         searchEditText=findViewById(R.id.search_edit_text)
-        progressBar=findViewById(R.id.progress_bar_search)
-        progressBar.visibility= View.INVISIBLE
+
+
 
         searchEditText.afterTextChangedDelayed {
             val searchText=searchEditText.text.toString()
