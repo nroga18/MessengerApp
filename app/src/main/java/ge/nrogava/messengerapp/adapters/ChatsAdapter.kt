@@ -89,14 +89,11 @@ class ChatsAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.View
 
      }
 
+    private var person = Person("","","","")
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.setOnClickListener{
-            val intent = Intent(context, ChatActivity :: class.java)
-            intent.putExtra("nickname", chatItems[position].user)
-            intent.putExtra("Source", "Home");
-            Log.d("DecideIntent","2")
-            context.startActivity(intent)
-            (context as Activity).finish()
+            rep.getUserByNicknameInstance(chatItems[position].user, position, this::getPersonByNickname)
         }
         (holder as ChatsViewHolder).onBind(chatItems[position])
 
@@ -112,6 +109,19 @@ class ChatsAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.View
         this.chatItems.addAll(chatItems)
 
         notifyDataSetChanged()
+    }
+
+    private fun getPersonByNickname(localPerson: Person, position : Int ) {
+        person=localPerson
+        val intent = Intent(context, ChatActivity :: class.java)
+        intent.putExtra("nickname", chatItems[position].user)
+        intent.putExtra("Source", "Home");
+        intent.putExtra("occupation",person.occupation)
+        intent.putExtra("url",person.url)
+
+        Log.d("DecideIntent","2")
+        context.startActivity(intent)
+        (context as Activity).finish()
     }
 
 

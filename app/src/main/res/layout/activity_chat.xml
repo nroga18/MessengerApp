@@ -53,7 +53,7 @@
                         app:layout_constraintStart_toStartOf="@+id/txt_msg_receiver"
                         app:layout_constraintTop_toBottomOf="@+id/txt_msg_receiver"
                         android:layout_height="wrap_content"
-                        android:text="@string/occupation"
+                        tools:text="@string/occupation"
                         />
 
                     <ImageView
@@ -71,7 +71,7 @@
                         android:layout_width="@dimen/image_width"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/avatar_image_placeholder"
+                        android:background="@drawable/avatar_image_placeholder"
                         android:layout_height="@dimen/image_width"
                         android:layout_marginEnd="@dimen/btn_top_margin"
                         app:layout_constraintBottom_toBottomOf="parent"

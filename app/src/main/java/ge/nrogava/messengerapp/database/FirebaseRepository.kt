@@ -284,6 +284,8 @@ object FirebaseRepository {
                var chat = Chat(user, time?:1 , recentMessage?:"")
                userChats.add(chat)
             }
+            userChats.sortByDescending { it.time }
+
             liveData.postValue(Collections.unmodifiableList(userChats))
 
          }
@@ -310,7 +312,7 @@ object FirebaseRepository {
    }
 
    fun searchChats(liveData : MutableLiveData<List<Chat>>, person: String) {
-
+/*
       dbRef.orderByChild("user").startAt(person).endAt(person+"\uf8ff").addValueEventListener(object : ValueEventListener {
          override fun onDataChange(snapshot: DataSnapshot) {
             Log.i("Firebase",snapshot.value.toString())
@@ -326,6 +328,8 @@ object FirebaseRepository {
             //
          }
       })
+
+ */
 
    }
 
@@ -446,8 +450,8 @@ object FirebaseRepository {
       return receiver
    }
 
-   fun getUserByNicknameInstance(nickname: String): Person {
-      var receiver = Person("","","","")
+   fun getUserByNicknameInstance(nickname: String, position: Int, completion: (Person, Int) -> Unit,): Person {
+      var receiver = Person()
       peopleRef.orderByChild("nickname").equalTo(nickname)
          .addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -455,11 +459,12 @@ object FirebaseRepository {
                val persons : List<Person> = snapshot.children.map {
 
                      dataSnapshot ->
-                  Log.d("Person",dataSnapshot.getValue(Person::class.java)!!.toString())
                   dataSnapshot.getValue(Person::class.java)!!
+
                }
                if(persons.count() > 0){
                   receiver = persons[0]
+                  completion(receiver,position)
                }
             }
 
@@ -467,9 +472,9 @@ object FirebaseRepository {
                //
             }
          })
-
       return receiver
    }
+
 
    fun listenForMessages(toId : String, completion: (Message) -> Unit) {
       var fromId = fireBaseUser?.uid?:""

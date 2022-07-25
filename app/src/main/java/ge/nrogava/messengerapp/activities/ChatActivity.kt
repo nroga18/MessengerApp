@@ -30,23 +30,34 @@ class ChatActivity : AppCompatActivity() {
     lateinit var receiver : Person
     lateinit var profileImage: ImageView
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
         receiver = Person("","","")
         profileImage=findViewById(R.id.profile_image_in_chat)
+        messageReceiverOccupation=findViewById(R.id.txt_receiver_occupation)
+
 
         //--------------------------------
         val source = intent.getStringExtra("Source")
         if(source=="Home") {
             nickname = intent.getStringExtra("nickname")!!
             rep.getUserByNickname(nickname, this::setToId)
-        } else {
+            val occupation=intent.getStringExtra("occupation")
+            messageReceiverOccupation.text=occupation
             val url=intent.getStringExtra("url")
             if(url!!.length>1) {
                 Picasso.get().load(url).into(profileImage)
             }
+        } else {
+            val occupation=intent.getStringExtra("occupation")
+            val url=intent.getStringExtra("url")
+            if(url!!.length>1) {
+                Picasso.get().load(url).into(profileImage)
+            }
+            messageReceiverOccupation.text=occupation
             nickname = intent.getStringExtra("nicknameSearch")!!
             rep.getUserByNickname(nickname, this::setToId)
         }
@@ -56,7 +67,7 @@ class ChatActivity : AppCompatActivity() {
         setMessageListOnChat()
         setChatBackButtonListener()
         setReceiverNameOnChat()
-        setReceiverOccupationOnChat()
+       // setReceiverOccupationOnChat()
         setInputTextListener()
         setLinearLayoutManagerToChatsView()
 
@@ -97,10 +108,13 @@ class ChatActivity : AppCompatActivity() {
         rep.sendMessageFromChat(receiver.uid, message, receiver.nickname)
         findViewById<EditText>(R.id.txt_message).text.clear()
     }
+    /*
     private fun setReceiverOccupationOnChat() {
         messageReceiverOccupation = findViewById<TextView>(R.id.txt_receiver_occupation)
         messageReceiverOccupation.text = rep.getOccupationByNickname(nickname)
     }
+
+     */
 
     private fun setReceiverNameOnChat() {
         messageReceiverNickName = findViewById<TextView>(R.id.txt_msg_receiver)
