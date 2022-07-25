@@ -87,7 +87,7 @@ class ChatActivity : AppCompatActivity() {
         val message = messageInputTxt.text.toString()
         updateMessagesInChat()
         Log.d("IntentChatUID",receiver.uid.toString())
-        rep.sendMessageFromChat(receiver.uid, message)
+        rep.sendMessageFromChat(receiver.uid, message, receiver.nickname)
         findViewById<EditText>(R.id.txt_message).text.clear()
     }
     private fun setReceiverOccupationOnChat() {

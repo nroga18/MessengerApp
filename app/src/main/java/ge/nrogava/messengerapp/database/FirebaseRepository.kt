@@ -9,9 +9,10 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import ge.nrogava.messengerapp.adapters.MessagesAdapter
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 //import ge.nrogava.messengerapp.util.toast
 
@@ -22,7 +23,7 @@ object FirebaseRepository {
    val firebaseAuth : FirebaseAuth =Firebase.auth
    val dbRef=db.getReference("chats")
    val peopleRef=db.getReference("users")
-   val messagesRef=db.getReference("messages")
+   val messagesRef=db.getReference("user-messages")
    var fireBaseUser : FirebaseUser?
    var person : Person?
    private val mail = "@freeuni.edu.ge"
@@ -208,7 +209,7 @@ object FirebaseRepository {
    }
 
 
-   fun getAllChats(liveData : MutableLiveData<List<Chat>>) {
+   fun getAllChats1(liveData : MutableLiveData<List<Chat>>) {
       dbRef.addValueEventListener(object : ValueEventListener {
          override fun onDataChange(snapshot: DataSnapshot) {
             Log.i("Firebase",snapshot.value.toString())
@@ -217,6 +218,12 @@ object FirebaseRepository {
                   dataSnapshot ->  dataSnapshot.getValue(Chat::class.java)!!
 
             }
+//            var userChats  = mutableSetOf<Chat>()
+//            for (c in chats){
+//               if(c.user == person?.nickname){
+//                  userChats.add(c)
+//               }
+//            }
             Log.i("CHATS",chats.toString())
             Log.d("RV","In Repository")
             Log.d("RV", chats.size.toString())
@@ -229,6 +236,73 @@ object FirebaseRepository {
          }
       })
 
+   }
+   fun getAllChats(liveData : MutableLiveData<List<Chat>>) {
+      messagesRef.child(fireBaseUser?.uid?:"").addValueEventListener(object : ValueEventListener {
+         override fun onDataChange(snapshot: DataSnapshot) {
+            Log.i("Firebase",snapshot.value.toString())
+
+            var userMesages = HashMap<String, MutableList<Message>>()
+            var hashMap = snapshot.value as HashMap<*, *>
+            for (receiverUid in hashMap.keys){
+               var receiverMessages = hashMap[receiverUid] as HashMap<*, *>
+               var rUid = receiverUid as String
+               userMesages[rUid] = mutableListOf<Message>()
+               for(messageKey in receiverMessages.keys){
+                  var m = receiverMessages[messageKey] as HashMap<*,*>
+                  var sendOrReceived = m["sentOrReceived"] as Boolean
+                  var key = m["key"] as String
+                  var fromId = m["fromId"] as String
+                  var toId = m["toId"] as String
+                  var toIdNickname = m["toIdNickname"] as String
+                  var fromIdNickname = m["fromIdNickname"] as String
+                  var message = m["message"] as String
+                  var time = m["time"] as Long
+                  var w = Message(sendOrReceived, key, fromId, toId,toIdNickname,fromIdNickname, message, time)
+                  userMesages[rUid]?.add(w)
+               }
+            }
+            var userChats  = mutableListOf<Chat>()
+            for (k in userMesages.keys){
+               var lastMessage = userMesages[k]?.get((userMesages[k]?.size ?: 0) -1)
+               var user = ""
+
+                  if(person!!.nickname == lastMessage!!.fromIdNickname){
+                     user = lastMessage!!.toIdNickname
+                  }else{
+                     user = lastMessage!!.fromIdNickname
+                  }
+                  getNicknameByUid(user)
+
+
+               var time = lastMessage?.time
+               var recentMessage = lastMessage?.message
+               var chat = Chat(user, time?:1 , recentMessage?:"")
+               userChats.add(chat)
+            }
+            liveData.postValue(Collections.unmodifiableList(userChats))
+
+         }
+
+         override fun onCancelled(error: DatabaseError) {
+            //
+         }
+      })
+
+   }
+   fun getNicknameByUid(id : String) {
+      val uidRef = peopleRef.child(id)
+
+      val valueEventListener = object : ValueEventListener {
+         override fun onDataChange(dataSnapshot: DataSnapshot) {
+            val user = dataSnapshot.getValue(Person::class.java)
+            //return user.nickname
+         }
+
+         override fun onCancelled(databaseError: DatabaseError) {
+         }
+      }
+      uidRef.addListenerForSingleValueEvent(valueEventListener)
    }
 
    fun searchChats(liveData : MutableLiveData<List<Chat>>, person: String) {
@@ -334,11 +408,11 @@ object FirebaseRepository {
       return ""
    }
 
-   fun sendMessageFromChat(toId: String, messageText: String) {
+   fun sendMessageFromChat(toId: String, messageText: String, receiverNickname : String) {
       var fromId = fireBaseUser?.uid?:""
       val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
       val ref1 = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
-      val message = Message(true, ref.key!!, fromId, toId, messageText)
+      val message = Message(true, ref.key!!, fromId, toId,receiverNickname, person!!.nickname, messageText)
       ref.setValue(message)
       ref1.setValue(message)
    }

@@ -12,10 +12,7 @@ import java.text.SimpleDateFormat
 
 class MessagesAdapter (val messages: ArrayList<Message>): RecyclerView.Adapter<MessageRecyclerViewViewHolder>() {
 
-    private var mesg : ArrayList<Message> = messages
-    fun updateList(m: ArrayList<Message>) {
-        mesg = m
-    }
+
     override fun getItemViewType(ind: Int): Int {
         if(messages[ind].sentOrReceived){
             return 1

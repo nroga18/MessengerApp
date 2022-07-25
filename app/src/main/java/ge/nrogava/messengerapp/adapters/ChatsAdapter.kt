@@ -15,6 +15,7 @@ import ge.nrogava.messengerapp.activities.Listener
 
 import ge.nrogava.messengerapp.database.Chat
 import ge.nrogava.messengerapp.databinding.ConversationListViewBinding
+import java.text.SimpleDateFormat
 
 class ChatsAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>()  {
 
@@ -40,15 +41,11 @@ class ChatsAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.View
 
             binding.nickname.text=chat.user
             binding.lastMessage.text=chat.recentMessage
-            binding.time.text=chat.time
+            binding.time.text= SimpleDateFormat("hh:mm").format(chat.time)
             Log.d("RV","In Adapter")
             Log.d("RV","Time: " + chat.time)
 
         }
-
-//         override fun onClick(p0: View?) {
-//             listener.onClick(adapterPosition)
-//         }
 
      }
 
@@ -60,9 +57,6 @@ class ChatsAdapter(val context: Context): RecyclerView.Adapter<RecyclerView.View
             context.startActivity(intent)
             (context as Activity).finish()
         }
-
-
-
         (holder as ChatsViewHolder).onBind(chatItems[position])
 
     }
