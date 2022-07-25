@@ -266,7 +266,9 @@ object FirebaseRepository {
             }
             var userChats  = mutableListOf<Chat>()
             for (k in userMesages.keys){
-               var lastMessage = userMesages[k]?.get((userMesages[k]?.size ?: 0) -1)
+               var myMessages = userMesages[k] ?: mutableListOf<Message>()
+               myMessages.sortWith(compareBy({ it.time }))
+               var lastMessage = myMessages?.get((userMesages[k]?.size ?: 0) -1)
                var user = ""
 
                   if(fireBaseUser!!.uid == lastMessage!!.fromId){
