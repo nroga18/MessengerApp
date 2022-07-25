@@ -313,6 +313,63 @@ object FirebaseRepository {
    }
 
    fun searchChats(liveData : MutableLiveData<List<Chat>>, person: String) {
+      messagesRef.child(fireBaseUser?.uid?:"").addValueEventListener(object : ValueEventListener {
+
+         override fun onDataChange(snapshot: DataSnapshot) {
+            Log.i("Firebase",snapshot.value.toString())
+
+            var userMesages = HashMap<String, MutableList<Message>>()
+            var hashMap = snapshot.value as HashMap<*, *>
+            for (receiverUid in hashMap.keys){
+               var receiverMessages = hashMap[receiverUid] as HashMap<*, *>
+               var rUid = receiverUid as String
+               userMesages[rUid] = mutableListOf<Message>()
+               for(messageKey in receiverMessages.keys){
+                  var m = receiverMessages[messageKey] as HashMap<*,*>
+                  var sendOrReceived = m["sentOrReceived"] as Boolean
+                  var key = m["key"] as String
+                  var fromId = m["fromId"] as String
+                  var toId = m["toId"] as String
+                  var toIdNickname = m["toIdNickname"] as String
+                  var fromIdNickname = m["fromIdNickname"] as String
+                  var message = m["message"] as String
+                  var time = m["time"] as Long
+                  var w = Message(sendOrReceived, key, fromId, toId,toIdNickname,fromIdNickname, message, time)
+                  userMesages[rUid]?.add(w)
+               }
+            }
+            var userChats  = mutableListOf<Chat>()
+            for (k in userMesages.keys){
+               var myMessages = userMesages[k] ?: mutableListOf<Message>()
+               myMessages.sortWith(compareBy({ it.time }))
+               var lastMessage = myMessages?.get((userMesages[k]?.size ?: 0) -1)
+               var user = ""
+
+               if(fireBaseUser!!.uid == lastMessage!!.fromId){
+                  user = lastMessage!!.toIdNickname
+               }else{
+                  user = lastMessage!!.fromIdNickname
+               }
+               getNicknameByUid(user)
+
+
+               var time = lastMessage?.time
+               var recentMessage = lastMessage?.message
+               var chat = Chat(user, time?:1 , recentMessage?:"")
+               if(user.startsWith(person)) {
+                  userChats.add(chat)
+               }
+            }
+            userChats.sortByDescending { it.time }
+
+            liveData.postValue(Collections.unmodifiableList(userChats))
+
+         }
+
+         override fun onCancelled(error: DatabaseError) {
+            Log.d("d", error.message)
+         }
+      })
 /*
       dbRef.orderByChild("user").startAt(person).endAt(person+"\uf8ff").addValueEventListener(object : ValueEventListener {
          override fun onDataChange(snapshot: DataSnapshot) {
