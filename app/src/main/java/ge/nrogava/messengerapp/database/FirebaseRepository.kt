@@ -301,23 +301,34 @@ object FirebaseRepository {
             Log.i("Firebase",snapshot.value.toString())
 
             var userMesages = HashMap<String, MutableList<Message>>()
-            var hashMap = snapshot.value as HashMap<*, *>
-            for (receiverUid in hashMap.keys){
-               var receiverMessages = hashMap[receiverUid] as HashMap<*, *>
-               var rUid = receiverUid as String
-               userMesages[rUid] = mutableListOf<Message>()
-               for(messageKey in receiverMessages.keys){
-                  var m = receiverMessages[messageKey] as HashMap<*,*>
-                  var sendOrReceived = m["sentOrReceived"] as Boolean
-                  var key = m["key"] as String
-                  var fromId = m["fromId"] as String
-                  var toId = m["toId"] as String
-                  var toIdNickname = m["toIdNickname"] as String
-                  var fromIdNickname = m["fromIdNickname"] as String
-                  var message = m["message"] as String
-                  var time = m["time"] as Long
-                  var w = Message(sendOrReceived, key, fromId, toId,toIdNickname,fromIdNickname, message, time)
-                  userMesages[rUid]?.add(w)
+            if(snapshot.value != null) {
+               var hashMap = snapshot.value as HashMap<*, *>
+               for (receiverUid in hashMap.keys) {
+                  var receiverMessages = hashMap[receiverUid] as HashMap<*, *>
+                  var rUid = receiverUid as String
+                  userMesages[rUid] = mutableListOf<Message>()
+                  for (messageKey in receiverMessages.keys) {
+                     var m = receiverMessages[messageKey] as HashMap<*, *>
+                     var sendOrReceived = m["sentOrReceived"] as Boolean
+                     var key = m["key"] as String
+                     var fromId = m["fromId"] as String
+                     var toId = m["toId"] as String
+                     var toIdNickname = m["toIdNickname"] as String
+                     var fromIdNickname = m["fromIdNickname"] as String
+                     var message = m["message"] as String
+                     var time = m["time"] as Long
+                     var w = Message(
+                        sendOrReceived,
+                        key,
+                        fromId,
+                        toId,
+                        toIdNickname,
+                        fromIdNickname,
+                        message,
+                        time
+                     )
+                     userMesages[rUid]?.add(w)
+                  }
                }
             }
             var userChats  = mutableListOf<Chat>()
@@ -375,23 +386,34 @@ object FirebaseRepository {
             Log.i("Firebase",snapshot.value.toString())
 
             var userMesages = HashMap<String, MutableList<Message>>()
-            var hashMap = snapshot.value as HashMap<*, *>
-            for (receiverUid in hashMap.keys){
-               var receiverMessages = hashMap[receiverUid] as HashMap<*, *>
-               var rUid = receiverUid as String
-               userMesages[rUid] = mutableListOf<Message>()
-               for(messageKey in receiverMessages.keys){
-                  var m = receiverMessages[messageKey] as HashMap<*,*>
-                  var sendOrReceived = m["sentOrReceived"] as Boolean
-                  var key = m["key"] as String
-                  var fromId = m["fromId"] as String
-                  var toId = m["toId"] as String
-                  var toIdNickname = m["toIdNickname"] as String
-                  var fromIdNickname = m["fromIdNickname"] as String
-                  var message = m["message"] as String
-                  var time = m["time"] as Long
-                  var w = Message(sendOrReceived, key, fromId, toId,toIdNickname,fromIdNickname, message, time)
-                  userMesages[rUid]?.add(w)
+            if(snapshot.value != null) {
+               var hashMap = snapshot.value as HashMap<*, *>
+               for (receiverUid in hashMap.keys) {
+                  var receiverMessages = hashMap[receiverUid] as HashMap<*, *>
+                  var rUid = receiverUid as String
+                  userMesages[rUid] = mutableListOf<Message>()
+                  for (messageKey in receiverMessages.keys) {
+                     var m = receiverMessages[messageKey] as HashMap<*, *>
+                     var sendOrReceived = m["sentOrReceived"] as Boolean
+                     var key = m["key"] as String
+                     var fromId = m["fromId"] as String
+                     var toId = m["toId"] as String
+                     var toIdNickname = m["toIdNickname"] as String
+                     var fromIdNickname = m["fromIdNickname"] as String
+                     var message = m["message"] as String
+                     var time = m["time"] as Long
+                     var w = Message(
+                        sendOrReceived,
+                        key,
+                        fromId,
+                        toId,
+                        toIdNickname,
+                        fromIdNickname,
+                        message,
+                        time
+                     )
+                     userMesages[rUid]?.add(w)
+                  }
                }
             }
             var userChats  = mutableListOf<Chat>()
